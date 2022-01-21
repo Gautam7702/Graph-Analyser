@@ -13,10 +13,14 @@
     <h2>Enter the number of vertices in the graph</h2>
     <input type="text" id = "vertices">
     <h2>Enter the edges in the list</h2>
-    <input type="text" id = "edges">
+    <textarea type="text" id = "edges"></textarea>
     <br>
-    <input type="submit" id = "submit">
+    <input type="submit" id = "submit" onclick="Input()">
 
-    </canvas>
+    <div class = "graph_sheet">
+        <svg id ="hey" height = "500" width ="500">
+        </svg>
+    </div>
 </body>
+<script src= "script.js"></script>
 </html>
