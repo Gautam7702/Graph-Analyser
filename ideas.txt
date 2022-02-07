@@ -1,0 +1,11 @@
+1. User must be able to drag node.
+2. Visuallize the graphing algorithms
+        a. DFS
+        b. BFS
+        c. Dijkstra's
+        d. Strongly Connected Components
+3. Create Graph Analysis Report based on 
+        a. Connected components
+        b. Bridges.
+        c. 2-colorable
+        d. Articulate Points 
