@@ -73,7 +73,7 @@ function MouseEvents()
 function Graph(){
     let vertices = [];
     let noOfVertice;
-    let mode =1;
+    let mode =0;
     let edgeList = [];
     // let update = 0;
     let mouseEvent = new MouseEvents;
@@ -82,6 +82,11 @@ function Graph(){
             noOfVertice = n;
             createNodes();
         }
+    this.setMode = function(m)
+        {
+            mode = m;
+        }
+
     function createNodes(){ 
         for(let i=1;i<=noOfVertice;i++)
         {
@@ -103,15 +108,13 @@ function Graph(){
         for(let i=0;i<edgeList.length;i++)
             {
                 if(edgeList[i]==arr){
-                    console.log("MultiEdge");
+                    // console.log("MultiEdge");
                     flag=1;
                 }
             }
         if(flag==0)
             edgeList.push(arr);
     }
-
-    
     this.updateNode = function(x,y,pos){
         if(x<0||y<0||x>1000||y>600)
             return;
@@ -314,5 +317,20 @@ function Input(){
     graph.show();
     // setInterval(graph.show(),100);
 }
+
+function setMode(mode)
+{
+    graph.setMode(mode);
+}
+function newEdge()
+    {
+        m  = document.getElementById('newEdge').value;
+        m = m.replace(" ","");
+        m = m.replaceAll("\n","");
+        for(let i=0;i<m.length;i+=2){
+            graph.addEdge(m[i],m[i+1]);
+        }
+        graph.show();
+    }
 
 

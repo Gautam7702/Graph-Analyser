@@ -8,20 +8,48 @@
     <title>Graph Analyser</title>
 </head>
 <body>
+    <div class="header">
     <h1>Graph Analysis</h1>
-    <br>
-    <h2>Enter the number of vertices in the graph</h2>
-    <input type="text" id = "vertices">
-    <h2>Enter the edges in the list</h2>
-    <textarea type="text" id = "edges"></textarea>
-    <br>
-    <input type="submit" id = "submit" onclick="Input()">
-
+    </div>
+    <div class="sideBar">
+        <ul class = "side">
+            <li onclick = "setMode(1)">Edit Mode</li>
+            <div onmouseover="document.getElementById('d2').style.display = 'block'" onmouseout="document.getElementById('d2').style.display = 'none'" >
+            <li id="v2" >Add Edge</li>
+                <ul id ="d2"> 
+                    <li>Enter Edge</li>
+                    <li><textarea type  ="text" id ="newEdge"></textarea></li>
+                    <li><input type="submit" onclick="newEdge()"></li>
+                </ul>
+            </div>
+            <div onmouseover="document.getElementById('d3').style.display = 'block'" onmouseout="document.getElementById('d3').style.display = 'none'" >
+            <li>Algorithm</li>
+            <ul id = "d3">
+                <li>BFS</li>
+                <li>DFS</li>
+            </ul>
+            </div>
+    <div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none'">
+    <li> New Graph</li>
+    <ul id = "d4">
+    <div class = "newGraph">
+        <h2>Enter the number of vertices in the graph</h2>
+        <input type="text" id = "vertices">
+        <h2>Enter the edges in the list</h2>
+        <textarea type="text" id = "edges"></textarea>
+        <br>
+        <input type="submit" id = "submit" onclick="Input()">   
+    </div>
+    </ul>
+    </ul>
+    </div>     
     <div class = "graph_sheet">
-        <svg id ="graph" height = "600" width ="1000">
+        <svg id ="graph" height = "94vh" width ="80vw">
             
         </svg>
     </div>
+   
+
 </body>
 <script src= "script.js"></script>
 </html>
