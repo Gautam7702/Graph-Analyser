@@ -1,7 +1,7 @@
-1. User must be able to drag node.
+1. User must be able to drag node. (done)
 2. Visuallize the graphing algorithms
-        a. DFS
-        b. BFS
+        a. DFS(done)
+        b. BFS(done)
         c. Dijkstra's
         d. Strongly Connected Components
 3. Create Graph Analysis Report based on 
@@ -9,3 +9,5 @@
         b. Bridges.
         c. 2-colorable
         d. Articulate Points 
+
+4.Graph can be weighted or directed.    

@@ -6,49 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href = "styles/style.css">
     <title>Graph Analyser</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="header">
-    <h1>Graph Analysis</h1>
+        <h1>GRAPH VISUALISER</h1>
     </div>
     <div class="sideBar">
+        <b>
         <ul class = "side">
             <li onclick = "setMode(1)">Edit Mode</li>
             <div onmouseover="document.getElementById('d2').style.display = 'block'" onmouseout="document.getElementById('d2').style.display = 'none'" >
-            <li id="v2" >Add Edge</li>
-                <ul id ="d2"> 
-                    <li>Enter Edge</li>
-                    <li><textarea type  ="text" id ="newEdge"></textarea></li>
-                    <li><input type="submit" onclick="newEdge()"></li>
-                </ul>
+                <li id="v2" >Add Edge</li>
+                    <ul class = "d" id ="d2"> 
+                        <li><textarea type  ="text" id ="newEdge" style = "height: 20px;"></textarea></li>
+                        <li><input type="submit" class = "submit" onclick="newEdge()"></li>
+                    </ul>
+            </div>
+            <div onmouseover="document.getElementById('d5').style.display = 'block'" onmouseout="document.getElementById('d5').style.display = 'none'" >
+                <li id="v3" >Delete Edge</li>
+                    <ul class = "d" id ="d5"> 
+                        <li><textarea type  ="text" id ="deleteEdge" style="height:20px;"></textarea></li>
+                        <li><input type="submit" class = "submit" onclick="deleteEdge()"></li>
+                    </ul>
             </div>
             <div onmouseover="document.getElementById('d3').style.display = 'block'" onmouseout="document.getElementById('d3').style.display = 'none'" >
-            <li>Algorithm</li>
-            <ul id = "d3">
-                <li>BFS</li>
-                <li>DFS</li>
-            </ul>
+                <li>Algorithm</li>
+                <ul class="d" id = "d3">
+                    <li onclick = "setMode(2);">BFS</li>
+                    <li onclick = "setMode(3);">DFS</li>
+                </ul>
             </div>
-    <div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none'">
-    <li> New Graph</li>
-    <ul id = "d4">
-    <div class = "newGraph">
-        <h2>Enter the number of vertices in the graph</h2>
-        <input type="text" id = "vertices">
-        <h2>Enter the edges in the list</h2>
-        <textarea type="text" id = "edges"></textarea>
-        <br>
-        <input type="submit" id = "submit" onclick="Input()">   
+    <div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none' ">
+        <li> New Graph</li>
+        <ul class="d" id = "d4">
+            <li> <h2>Enter the number of vertices in the graph</h2> </li>
+            <li> <input type="text" id = "vertices"> </li>
+            <li> <h2>Enter the edges in the list</h2></li>
+            <li>  <textarea type="text" id = "edges"></textarea></li>
+            <br>
+            <li><input class = "submit" type="submit" id = "submit" onclick="Input()"></li>
+         </ul>
     </div>
+  
     </ul>
-    </ul>
+</b>
     </div>     
     <div class = "graph_sheet">
-        <svg id ="graph" height = "94vh" width ="80vw">
-            
+        <!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
+        <svg id ="graph" height = "90vh" width ="80vw"> 
         </svg>
     </div>
    
+
+
+
+
 
 </body>
 <script src= "script.js"></script>

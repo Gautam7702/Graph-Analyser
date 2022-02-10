@@ -1,17 +1,20 @@
 *{
     padding:0px;
     margin:0px;
+    color : #FF5400;
 }
 #edges{
     height: 200px;
 }
+
 .graph_sheet{
     padding:0px;
     margin:0px;
-    height: 94vh;
+    height: 90vh;
+    top :10vh;
     width: 80%;
     position: absolute;
-    background-color: #282828 ;
+    background-color: #545454;
 }
 .node{
     border-radius: 40px;
@@ -24,35 +27,85 @@
     padding-top: 10px;
 }
 
-
+ul{
+    list-style-type: none;
+}
 .header{
-    height : 6vh;
+    font-size : 2vh;
+    height : 10vh;
+    font-weight: 5000;
+    padding-top: 25px;
     width: 100%;
-    background-color: #121212;
-    color :  white;
-    font-family: 'Rowdies', cursive;
+    background-color: #000000;
+    /* color :  white; */
+    font-family:'Ubuntu', sans-serif;
     text-align: center;
-    letter-spacing: 3px;
+    letter-spacing: 15px;
 }
 .sideBar{
+    font-size: 2vh;
+    font-weight: 5000;
     position:absolute;
+    top :10vh;
     right:0px;
     width: 20%;
-    background-color: #121212;
-    height: 94vh;
-    color : white;
+    background-color: #000000;
+    height: 90vh;
+    /* color : white; */
+}
+textarea{
+     /* top:100px; */
+     width: 200px;
+     font-family: 'Zen Kaku Gothic Antique', sans-serif;
+     /* left:100px; */
+     height: 100px;
+     padding : 10px;
+     border-radius: 20px;
+     color : black;
+     font-weight: bold;
+}
+.side ul{
+    /* margin-left : 60px; */
+    display:none;
+    text-align: center;
+
+}
+.side li{
+
+    text-align: center;
+    font-size: 3vh;
+    margin:10px;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
 }
 
 .side li:hover{
-    color:orange;
+    color: #FFAD22;
 }
-.side ul{
-    margin-left : 100px;
-    display:none;
+.submit{
+    position:relative;
+    /* top:100px; */
+    width: 100px;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+    /* left:100px; */
+    padding : 10px;
+    border-radius: 20px;
+    color : black;
+    font-weight: bold;
+}
+.submit:hover{
+    background-color: black;
+    color:white;
+}
+input{
+    color: black;
+    font-size: 15px;
+    padding:5px;
+    border-radius: 5px;
+    border-color: #FF5400 ;
 }
 
-
-
-
+#d4 li{
+    font-size: 2vh;
+}
 
 

@@ -5,6 +5,7 @@ function Node(x,y){
     // this.update = 0; 
 };
 
+graph = new Graph();
 function MouseEvents()
 {
     this.onMouseOver = function(Mode,e,obj){
@@ -12,9 +13,9 @@ function MouseEvents()
         {
             let className = obj.getAttribute("class");
             let classes = document.getElementsByClassName(className);
-            console.log(e);
+            // console.log(e);
             classes[0].setAttributeNS(null,"fill","black");
-            classes[1].setAttributeNS(null,"stroke","white");
+            classes[1].setAttributeNS(null,"stroke","#FF5400");
         }
 
     }
@@ -36,10 +37,10 @@ function MouseEvents()
     }
     this.onClick = function(Mode,e,obj){
 
-            // console.log(e);
+            console.log(e);
             if(Mode == 1)   
             {
-                console.log(obj,dragObject);
+                // console.log(obj,dragObject);
         
                 if(dragObject!=null)
                 {
@@ -58,6 +59,24 @@ function MouseEvents()
                 classes[0].setAttributeNS(null,"fill","black");
                 classes[1].setAttributeNS(null,"stroke","white");
         }
+
+
+        if(Mode  == 2)
+            {
+                let className = obj.getAttribute("class");
+                className = className.replace("node" ,"");
+                console.log(className);
+                graph.bfs(className);
+
+            }
+        if(Mode ==  3)  
+            {
+                let className = obj.getAttribute("class");
+                className = className.replace("node" ,"");
+                console.log(className);
+                className = parseInt(className);
+                graph.dfs(className);
+            }
     }
     this.onMouseOut = function(Mode,e,x){
         if(Mode == 1)   
@@ -71,15 +90,19 @@ function MouseEvents()
     }
 }
 function Graph(){
+    let orderofbfs = [];
+    let orderofdfs = [];
     let vertices = [];
     let noOfVertice;
     let mode =0;
     let edgeList = [];
+    let adjacencyList = [];
     // let update = 0;
     let mouseEvent = new MouseEvents;
     this.setVertices  = function(n)
         {
             noOfVertice = n;
+            edgeList= [];
             createNodes();
         }
     this.setMode = function(m)
@@ -115,6 +138,17 @@ function Graph(){
         if(flag==0)
             edgeList.push(arr);
     }
+    this.deleteEdge = function(a,b){
+        a =parseInt(a);
+        b= parseInt(b); 
+        let newEdge = [];
+        for(let i=0;i<edgeList.length;i++)
+            {
+                if(!((edgeList[i][0]==a&&edgeList[i][1]==b) || (edgeList[i][0]==b&&edgeList[i][1]==a)))
+                    newEdge.push(edgeList[i]);
+            }
+        edgeList = newEdge;
+    }
     this.updateNode = function(x,y,pos){
         if(x<0||y<0||x>1000||y>600)
             return;
@@ -125,6 +159,35 @@ function Graph(){
     this.show = function()
     {
         document.getElementById('graph').innerHTML = "";
+        let err=0; 
+        for(let i =0;i<edgeList.length;i++)
+        {
+
+            let x = edgeList[i][0]-1;
+            let y = edgeList[i][1]-1;
+            if(x>(noOfVertice-1)||y>(noOfVertice-1)||x<0||y<0)
+                {
+                   err =1;
+                   continue;
+                }
+            // console.log(x);
+            // console.log(y);
+            let x1 = vertices[x].x_cor;
+            let y1 = vertices[x].y_cor;
+            let x2 = vertices[y].x_cor;
+            let y2 = vertices[y].y_cor;
+            const el = document.getElementById("graph");
+            const line = document.createElementNS('http://www.w3.org/2000/svg',"line");
+            line.setAttributeNS(null,"x1",x1);
+            line.setAttributeNS(null,"x2",x2);
+            line.setAttributeNS(null,"y1",y1);
+            line.setAttributeNS(null,"y2",y2);
+            // line.setAttributeNS(null,"style","z-index : -1;")
+            line.setAttributeNS(null,"style","stroke:white;stroke-width:2");
+            el.appendChild(line);
+        }
+        if(err)
+        alert("Some Edges were out of bounds! ");
         for(let i =0;i<noOfVertice;i++)
         {
             const el = document.getElementById("graph");
@@ -193,115 +256,115 @@ function Graph(){
             // txt.setAttributeNS(null,"onclick","onClick(event,this)");
             // ver.setAttributeNS(null,"onmouseout","onMouseOut(event,this)");
             // txt.setAttributeNS(null,"onmouseout","onMouseOut(event,this)");
-
             txt.setAttributeNS(null,"id",id_text);
             txt.setAttribute("style","z-index:10;");
             ver.setAttribute("style","z-index:10;");
             el.appendChild(ver);
             el.append(txt);
-        }
-        let err=0;
-
-    for(let i =0;i<edgeList.length;i++)
-        {
-
-            let x = edgeList[i][0]-1;
-            let y = edgeList[i][1]-1;
-            if(x>(noOfVertice-1)||y>(noOfVertice-1)||x<0||y<0)
-                {
-                   err =1;
-                   continue;
-                }
-            console.log(x);
-            console.log(y);
-            let x1 = vertices[x].x_cor-2;
-            let y1 = vertices[x].y_cor-2;
-            let x2 = vertices[y].x_cor-2;
-            let y2 = vertices[y].y_cor-2;
-            const el = document.getElementById("graph");
-            const line = document.createElementNS('http://www.w3.org/2000/svg',"line");
-            line.setAttributeNS(null,"x1",x1);
-            line.setAttributeNS(null,"x2",x2);
-            line.setAttributeNS(null,"y1",y1);
-            line.setAttributeNS(null,"y2",y2);
-            // line.setAttributeNS(null,"style","z-index : -1;")
-            line.setAttributeNS(null,"style","stroke:rgb(255,0,0);stroke-width:2");
-            el.appendChild(line);
-        }
-        if(err)
-        alert("Some Edges were out of bounds! ");
+        }      
     }
+    function color(arr,index)
+    {
+         
+        className = "node"+arr[index];
+        let classes = document.getElementsByClassName(className);
+        classes[0].setAttributeNS(null,"fill","black");        classes[0].setAttributeNS(null,"fill","black");
+        classes[1].setAttributeNS(null,"stroke","#FF5400");
+        // color(arr,index);
+    }
+    function algoReady()
+    {
+        adjacencyList = [];
+        for(let i=0;i<noOfVertice;i++)
+            {
+                adjacencyList.push([]);
+            }
+        for(let i=0;i<edgeList.length;i++)
+            {
+                let temp = edgeList[i];
+                adjacencyList[temp[0]-1].push(temp[1]-1);
+                adjacencyList[temp[1]-1].push(temp[0]-1);
+            }
+        // console.log(adjacencyList)
+    }
+
+    this.bfs = function(x)
+    {
+        algoReady();
+        orderofbfs = [];
+        let queue = [];
+        let cur = 0;
+        let visit = [];     
+        for(let i=0;i<noOfVertice;i++)
+            visit.push(0);
+        queue.push(x);
+        while(cur < queue.length)
+            {   
+                let u  = parseInt(queue[cur]);
+                if(visit[u] == 1)
+                    {
+                        cur++;
+                        continue;
+                    }
+                orderofbfs.push(u);
+                visit[u] = 1;
+                cur++;
+                console.log(u);
+                for(let i=0;i<adjacencyList[u].length;i++)
+                    {
+                        v = adjacencyList[u][i];
+                        // console.log(v);
+                        v= parseInt(v);
+                        if(visit[v]==0)
+                            {
+
+                                queue.push(v);  
+                            }
+                    }
+            }
+        index =0;
+        myInterval = setInterval(function(){color(orderofbfs,index);index++;if(index==orderofbfs.length){
+            clearInterval(myInterval);
+           return;}},1000);
+        // color(orderofbfs,index);
+        console.log(orderofbfs);
+    }
+
+    this.dfs  = function(x)
+        {
+            orderofdfs = [];
+            algoReady();
+            let visit  = [];
+            for(let i=0;i<noOfVertice;i++) 
+            {
+                visit.push(0);
+            }
+            doDfs(visit,x);
+            index =0;
+            myInterval = setInterval(function(){color(orderofdfs,index);index++;if(index==orderofdfs.length){
+            clearInterval(myInterval);
+           return;}},1000);
+            console.log(orderofdfs);
+        }
+    function doDfs(visit,x)
+        {
+            console.log("yes");
+            if(visit[x]==0)
+                {
+                    visit[x]=1;
+                    orderofdfs.push(x);
+                    for(let i =0;i<adjacencyList[x].length;i++)
+                        {
+                            if(visit[adjacencyList[x][i]]==0)
+                                doDfs(visit,adjacencyList[x][i]);
+                        }
+                }
+        }
+
+
 }
 let dragObject;
 
-// function onMouseDown(e,obj)
-//     {
-//         let className = obj.getAttribute("class");
-//         dragObject = obj;
-//         className  = className.replace("node","");
-//         console.log(e.pageX,e.pageY);    
-//         // document.addEventListener('mousemove', console.log("hello"));
-//     }
-// function onMouseUp(obj)
-//     {
-//         dragObject = null;
-//     }
-// function onMouseMove(e,obj)
-//     {
-//         if(dragObject ==  null) return;
-//         let className = dragObject.getAttribute("class");
-//         className  = className.replace("node","");
-//         // console.log(e.pageX,e.pageY);   
-//         let bodyRect = document.body.getBoundingClientRect();
-//         let Rect = document.getElementById("graph").getBoundingClientRect();
-//         let pos  = Rect.top - bodyRect.top ;
-//         // pos = e.pageY - pos;
-//         // console.log(pos,e.pageX,e.pageY-pos-20); 
-//         graph.updateNode(e.pageX,e.pageY-pos,className);
-//     }
-
-// function onMouseOver(obj){
-//     let className = obj.getAttribute("class");
-//     let classes = document.getElementsByClassName(className);
-//     // console.log(classes);
-//     classes[0].setAttributeNS(null,"fill","black");
-//     classes[1].setAttributeNS(null,"stroke","white");
-// }
-
-// function onMouseOut(e,x){
-//     // console.log(x);
-//     let className = x.getAttribute("class");
-//     let classes = document.getElementsByClassName(className);
-//     // console.log(classes);
-//     classes[0].setAttributeNS(null,"fill","white");
-//     classes[1].setAttributeNS(null,"stroke","black");
-
-// }
-
-
-
-// function onClick(e,obj){    
-//     console.log(obj,dragObject);
-    
-//     if(dragObject!=null)
-//     {
-//         if(dragObject.getAttribute("class") == obj.getAttribute("class")){
-//             dragObject = null;
-//             return;
-//         }
-//     }
-//     else    
-//     {
-//         dragObject  = obj;
-//     }
-//     let className = obj.getAttribute("class");
-//     let classes = document.getElementsByClassName(className);
-//     // console.log(classes);
-//     classes[0].setAttributeNS(null,"fill","black");
-//     classes[1].setAttributeNS(null,"stroke","white");
-
-// }
-graph = new Graph();
 // setInterval(graph.show(),100);
 function Input(){
     let n,m;
@@ -310,7 +373,7 @@ function Input(){
     graph.setVertices(n);
     m = m.replaceAll(" ","");
     m = m.replaceAll("\n","");
-    console.log(m); 
+    // console.log(m); 
     for(let i=0;i<m.length;i+=2){
         graph.addEdge(m[i],m[i+1]);
     }
@@ -329,6 +392,16 @@ function newEdge()
         m = m.replaceAll("\n","");
         for(let i=0;i<m.length;i+=2){
             graph.addEdge(m[i],m[i+1]);
+        }
+        graph.show();
+    }
+function deleteEdge()
+    {
+        m  = document.getElementById('deleteEdge').value;
+        m = m.replace(" ","");
+        m = m.replaceAll("\n","");
+        for(let i=0;i<m.length;i+=2){
+            graph.deleteEdge(m[i],m[i+1]);
         }
         graph.show();
     }
