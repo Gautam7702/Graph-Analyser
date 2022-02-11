@@ -16,41 +16,40 @@
 </head>
 <body>
     <div class="header">
-        <h1>GRAPH VISUALISER</h1>
+       <img src ="logo.png"> <h1>GRAPH VISUALISER</h1>
     </div>
     <div class="sideBar">
         <b>
         <ul class = "side">
-            <li onclick = "setMode(1)">Edit Mode</li>
+            <li onclick = "setMode(1)" style = "padding-bottom:20px;">Edit Mode</li>
             <div onmouseover="document.getElementById('d2').style.display = 'block'" onmouseout="document.getElementById('d2').style.display = 'none'" >
-                <li id="v2" >Add Edge</li>
+                <li id="v2"style = "padding-bottom:20px;" >Add Edge</li>
                     <ul class = "d" id ="d2"> 
                         <li><textarea type  ="text" id ="newEdge" style = "height: 20px;"></textarea></li>
                         <li><input type="submit" class = "submit" onclick="newEdge()"></li>
                     </ul>
             </div>
             <div onmouseover="document.getElementById('d5').style.display = 'block'" onmouseout="document.getElementById('d5').style.display = 'none'" >
-                <li id="v3" >Delete Edge</li>
+                <li id="v3"style = "padding-bottom:20px;">Delete Edge</li>
                     <ul class = "d" id ="d5"> 
                         <li><textarea type  ="text" id ="deleteEdge" style="height:20px;"></textarea></li>
                         <li><input type="submit" class = "submit" onclick="deleteEdge()"></li>
                     </ul>
             </div>
             <div onmouseover="document.getElementById('d3').style.display = 'block'" onmouseout="document.getElementById('d3').style.display = 'none'" >
-                <li>Algorithm</li>
-                <ul class="d" id = "d3">
-                    <li onclick = "setMode(2);">BFS</li>
-                    <li onclick = "setMode(3);">DFS</li>
+                <li style = "padding-bottom:20px;">Algorithm</li>
+                <ul class="d" id = "d3" >
+                    <li onclick = "setMode(2);" style = "font-size:23px;">BFS</li>
+                    <li onclick = "setMode(3);" style = "font-size:23px;">DFS</li>
                 </ul>
             </div>
     <div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none' ">
-        <li> New Graph</li>
+        <li style = "padding-bottom:20px;"> New Graph</li>
         <ul class="d" id = "d4">
             <li> <h2>Enter the number of vertices in the graph</h2> </li>
             <li> <input type="text" id = "vertices"> </li>
             <li> <h2>Enter the edges in the list</h2></li>
             <li>  <textarea type="text" id = "edges"></textarea></li>
-            <br>
             <li><input class = "submit" type="submit" id = "submit" onclick="Input()"></li>
          </ul>
     </div>
@@ -60,7 +59,7 @@
     </div>     
     <div class = "graph_sheet">
         <!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
-        <svg id ="graph" height = "90vh" width ="80vw"> 
+        <svg id ="graph" height = "85vh" width ="80vw"> 
         </svg>
     </div>
    

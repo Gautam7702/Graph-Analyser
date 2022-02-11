@@ -14,8 +14,8 @@ function MouseEvents()
             let className = obj.getAttribute("class");
             let classes = document.getElementsByClassName(className);
             // console.log(e);
-            classes[0].setAttributeNS(null,"fill","black");
-            classes[1].setAttributeNS(null,"stroke","#FF5400");
+            classes[0].setAttributeNS(null,"fill","#FF5400");
+            classes[1].setAttributeNS(null,"stroke","black");
         }
 
     }
@@ -41,7 +41,7 @@ function MouseEvents()
             if(Mode == 1)   
             {
                 // console.log(obj,dragObject);
-        
+              
                 if(dragObject!=null)
                 {
                     if(dragObject.getAttribute("class") == obj.getAttribute("class")){
@@ -56,8 +56,8 @@ function MouseEvents()
                 let className = obj.getAttribute("class");
                 let classes = document.getElementsByClassName(className);
                 // console.log(classes);
-                classes[0].setAttributeNS(null,"fill","black");
-                classes[1].setAttributeNS(null,"stroke","white");
+                classes[0].setAttributeNS(null,"fill","#FF5400");
+                classes[1].setAttributeNS(null,"stroke","black");
         }
 
 
@@ -66,8 +66,8 @@ function MouseEvents()
                 let className = obj.getAttribute("class");
                 className = className.replace("node" ,"");
                 console.log(className);
+                graph.show();
                 graph.bfs(className);
-
             }
         if(Mode ==  3)  
             {
@@ -75,6 +75,7 @@ function MouseEvents()
                 className = className.replace("node" ,"");
                 console.log(className);
                 className = parseInt(className);
+                graph.show();
                 graph.dfs(className);
             }
     }
@@ -84,8 +85,8 @@ function MouseEvents()
                 let className = x.getAttribute("class");
                 let classes = document.getElementsByClassName(className);
                 // console.log(classes);
-                classes[0].setAttributeNS(null,"fill","white");
-                classes[1].setAttributeNS(null,"stroke","black");
+                classes[0].setAttributeNS(null,"fill","black");
+                classes[1].setAttributeNS(null,"stroke","white");
         }
     }
 }
@@ -102,28 +103,54 @@ function Graph(){
     this.setVertices  = function(n)
         {
             noOfVertice = n;
+            vertices = [];
             edgeList= [];
             createNodes();
         }
+    let cnt1=0,cnt2=0,cnt3=0;
     this.setMode = function(m)
         {
             mode = m;
+            if(m==1)
+                {
+                    if(cnt1==0)
+                        alert("You have entered edit mode! Click on the node you want to move and then move it.");
+                    cnt1++;
+                }
+            if(m==2)
+                {
+                    if(cnt2==0)
+                        {
+                            alert("Click on the node you want to start BFS on!");
+                        }
+                    cnt2++;
+                }
+            if(m==3)
+                {
+                    if(cnt3==0)
+                    {
+                        alert("click on the node you want to start dfs on!");
+                    }
+                }
         }
 
     function createNodes(){ 
+
+
+        console.log(vertices);
+        center_x  = screen.width*0.4 + noOfVertice*5;
+        center_y = screen.height*0.3 + noOfVertice*5;
+        angle = 2*Math.PI/noOfVertice;
+        newvertices = [];
         for(let i=1;i<=noOfVertice;i++)
         {
             let v;
-            if(i%2==1){
-                let x = parseInt((i/2));
-                v = new Node(100,(x+1)*100);
-            }
-            else{
-                let x = parseInt(i/2);
-                v = new Node(200,x*100);  
-            }     
-            vertices.push(v);
+            xcor = center_x + noOfVertice*15*Math.sin(i*angle);
+            ycor = center_y + noOfVertice*15*Math.cos(i*angle);
+            v = new Node(xcor,ycor);
+            newvertices.push(v);
         }
+        vertices = newvertices;
     }
     this.addEdge = function(a,b){
         let arr = [a,b];
@@ -206,13 +233,13 @@ function Graph(){
 
             ver.setAttributeNS(null,"stroke","black");
             ver.setAttributeNS(null,"stroke-width","2");
-            ver.setAttributeNS(null,"fill","white");
+            ver.setAttributeNS(null,"fill","black");
             ver.setAttributeNS(null,"cx",x_ver);
             ver.setAttributeNS(null,"cy",y_ver);
             txt.style["font-size"]="16";
             txt.setAttributeNS(null,"x",x_text);
             txt.setAttributeNS(null,"y",y_text);
-            txt.setAttributeNS(null,"stroke","black");
+            txt.setAttributeNS(null,"stroke","white");
             ver.setAttributeNS(null,"r","15");
             ver.setAttributeNS(null,"id",id_cir);
             ver.setAttributeNS(null,"class",className);
@@ -268,8 +295,8 @@ function Graph(){
          
         className = "node"+arr[index];
         let classes = document.getElementsByClassName(className);
-        classes[0].setAttributeNS(null,"fill","black");        classes[0].setAttributeNS(null,"fill","black");
-        classes[1].setAttributeNS(null,"stroke","#FF5400");
+        classes[0].setAttributeNS(null,"fill","#FF5400");  
+        classes[1].setAttributeNS(null,"stroke","white");
         // color(arr,index);
     }
     function algoReady()
