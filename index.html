@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src= "script.js"></script>
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel = "stylesheet" href = "styles/style.css">
-	<title>Graph Analyser</title>
-	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap" rel="stylesheet">
-</head>
-<body>
-	<div class="header">
-	   <img src ="logo.png"> <h1>Graph Visualizer</h1>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "stylesheet" href = "styles/style.css">
+		<title>Graph Analyser</title>
+		<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap" rel="stylesheet">
+		<script src= "script.js" ></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	</head>
+	<body>
+		<div class="header">
+			<img src ="logo.png"> <h1>Graph Visualizer</h1>
 	</div>
 	<div class="sideBar">
 		<b>
-		<ul class = "side">
-			<li id="v2"style = "padding-bottom:20px;" onclick = "graph.setMode(1)" >Add Edge</li>
-			<li onclick="graph.addVertices(1)" style = "padding-bottom: 20px; cursor: pointer;">Add Vertex</li>
-			<div onmouseover="document.getElementById('d5').style.display = 'block'" onmouseout="document.getElementById('d5').style.display = 'none'" >
-				<li id="v3"style = "padding-bottom:20px;">Delete Edge</li>
+			<ul class = "side">
+				<li id="v2"style = "padding-bottom:20px;" onclick = "graph.setMode(1)" >Add Edge</li>
+				<li onclick="graph.addVertices(1)" style = "padding-bottom: 20px; cursor: pointer;">Add Vertex</li>
+				<div onmouseover="document.getElementById('d5').style.display = 'block'" onmouseout="document.getElementById('d5').style.display = 'none'" >
+					<li id="v3"style = "padding-bottom:20px;">Delete Edge</li>
 					<ul class = "d" id ="d5"> 
 						<li><textarea type  ="text" id ="deleteEdge" style="height:20px;"></textarea></li>
 						<li><input type="submit" class = "submit" onclick="deleteEdge()"></li>
@@ -38,24 +39,24 @@
 					<li onclick = "graph.setMode(3);" style = "font-size:23px; cursor: pointer;">DFS</li>
 				</ul>
 			</div>
-	<div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none' ">
-		<li style = "padding-bottom:20px;"> New Graph</li>
+			<div onmouseover="document.getElementById('d4').style.display = 'block'" onmouseout="document.getElementById('d4').style.display = 'none' ">
+				<li style = "padding-bottom:20px;"> New Graph</li>
 		<ul class="d" id = "d4">
 			<li> <h2>Enter the number of vertices in the graph</h2> </li>
-			<li> <input type="text" id = "vertices"> </li>
+			<li> <input type="number" min = "1" id = "vertices" placeholder="Enter a positive number" > </li>
 			<li> <h2>Enter the edges in the list</h2></li>
-			<li>  <textarea type="text" id = "edges"></textarea></li>
+			<li><textarea type="text" id = "edges"></textarea></li>
 			<li><input class = "submit" type="submit" id = "submit" onclick="Input()"></li>
-		 </ul>
+		</ul>
 	</div>
-  
-	</ul>
+	
+</ul>
 </b>
-	</div>     
-	<div class = "graph_sheet">
-		<!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
-		<svg id ="graph" height = "85vh" width ="80vw" xmlns = "http://www.w3.org/2000/svg">
-		</svg>
-	</div>
+</div>     
+<div class = "graph_sheet">
+	<!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
+	<svg id ="graph" height = "85vh" width ="80vw" xmlns = "http://www.w3.org/2000/svg">
+	</svg>
+</div>
 </body>
 </html>
