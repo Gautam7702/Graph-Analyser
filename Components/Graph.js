@@ -147,7 +147,7 @@ export default class Graph {
 			b = parseInt(b);
 			if (a == b)
 				return;
-			for (let i = 0; i < adjacencyList[a].lenght; i++) {
+			for (let i = 0; i < adjacencyList[a].length; i++) {
 				if (adjacencyList[a][i] == b)
 					return;
 			}
