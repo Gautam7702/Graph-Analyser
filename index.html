@@ -13,7 +13,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap" rel="stylesheet">
-		<script src= "script.js" ></script>
+	
 		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	</head>
 	<body>
@@ -24,18 +24,18 @@
 		<b>
 			<ul class = "side">
 				<li id="v2"style = "padding-bottom:20px;" onclick = "graph.setMode(1)" >Add Edge</li>
-				<li onclick="graph.addVertices(1)" style = "padding-bottom: 20px; cursor: pointer;">Add Vertex</li>
+				<li onclick="graph.addVertices(1,graph)" style = "padding-bottom: 20px; cursor: pointer;">Add Vertex</li>
 				<div onmouseover="document.getElementById('d5').style.display = 'block'" onmouseout="document.getElementById('d5').style.display = 'none'" >
 					<li id="v3"style = "padding-bottom:20px;">Delete Edge</li>
 					<ul class = "d" id ="d5"> 
 						<li><textarea type  ="text" id ="deleteEdge" style="height:20px;"></textarea></li>
-						<li><input type="submit" class = "submit" onclick="deleteEdge()"></li>
+						<li><input type="submit" class = "submit" onclick="deleteEdge(graph)"></li>
 					</ul>
 			</div>
 			<div onmouseover="document.getElementById('d3').style.display = 'block'" onmouseout="document.getElementById('d3').style.display = 'none'" >
 				<li style = "padding-bottom:20px;">Algorithm</li>
 				<ul class="d" id = "d3" >
-					<li onclick = "graph.setMode(2);" style = "font-size:23px; cursor: pointer;">BFS</li>
+					<li onclick = "graph.setMode(2)" style = "font-size:23px; cursor: pointer;">BFS</li>
 					<li onclick = "graph.setMode(3);" style = "font-size:23px; cursor: pointer;">DFS</li>
 				</ul>
 			</div>
@@ -46,7 +46,7 @@
 			<li> <input type="number" min = "1" id = "vertices" placeholder="Enter a positive number" > </li>
 			<li> <h2>Enter the edges in the list</h2></li>
 			<li><textarea type="text" id = "edges"></textarea></li>
-			<li><input class = "submit" type="submit" id = "submit" onclick="Input()"></li>
+			<li><input class = "submit" type="submit" id = "submit" onclick="Input(graph)"></li>
 		</ul>
 	</div>
 	
@@ -58,5 +58,6 @@
 	<svg id ="graph" height = "85vh" width ="80vw" xmlns = "http://www.w3.org/2000/svg">
 	</svg>
 </div>
+<script src= "./script.js" type = module></script>
 </body>
 </html>
