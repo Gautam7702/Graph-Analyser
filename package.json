@@ -1,0 +1,27 @@
+{
+  "name": "graph-analyser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gautam7702/Graph-Analyser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gautam7702/Graph-Analyser/issues"
+  },
+  "homepage": "https://github.com/Gautam7702/Graph-Analyser#readme",
+  "dependencies": {
+    "autoprefixer": "^10.4.7",
+    "bootstrap": "^5.2.0-beta1",
+    "jquery": "^3.6.0",
+    "node-sass": "npm:sass@^1.53.0",
+    "sweetalert": "^2.1.2"
+  }
+}

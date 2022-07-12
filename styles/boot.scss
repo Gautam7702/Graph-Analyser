@@ -1,5 +1,4 @@
-@import "../../node_modules/bootstrap/scss/bootstrap.scss";
-// @import "../../node_modules/bootstrap/scss/forms/form-control";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .my-form-control{
     @extend .form-control;
