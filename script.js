@@ -59,14 +59,25 @@ window.handleNumberOfVerticesChange = (event) => {
 
 /****************************************************************************************************/
 
+/***************************Functions for validating input of delete option**************************/
+
+/****************************************************************************************************/
+
+
 window.setMode = (mode, graph) => {
   graph.setMode(mode);
 };
 
 window.newEdge = (graph) => {
-  m = document.getElementById("newEdge").value;
-  m = m.replace(" ", "");
-  m = m.replaceAll("\n", "");
+  let m = document.getElementById("insertEdge").value;
+  console.log(m);
+  let desiredEdge = /^\s*\d+\s+\d+\s*$/
+  if(!desiredEdge.test(m))
+    {
+      swal("Invalid Input","Edges are not in valid form","error")
+      return;
+    }
+  m = m.split(" ");
   for (let i = 0; i < m.length; i += 2) {
     graph.addEdge(m[i] - 1, m[i + 1] - 1);
   }
@@ -75,8 +86,13 @@ window.newEdge = (graph) => {
 
 window.deleteEdge = (graph) => {
   let m = document.getElementById("deleteEdge").value;
-  m = m.replace(" ", "");
-  m = m.replaceAll("\n", "");
+  let desiredEdge = /^\s*\d+\s+\d+\s*$/
+  if(!desiredEdge.test(m))
+    {
+      swal("Invalid Input","Edges are not in valid form","error")
+      return;
+    }
+  m = m.split(" ");
   for (let i = 0; i < m.length; i += 2) {
     graph.deleteEdge(m[i] - 1, m[i + 1] - 1);
   }

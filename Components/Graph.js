@@ -13,7 +13,7 @@ export default class Graph {
 		let orderofdfs = [];
 		let vertices = [];
 		let noOfVertice = 0;
-		let mode = 0;
+		let mode = 1;
 		let temp_edge;
 		let adjacencyList = [];
 		let edges = 0;
@@ -145,6 +145,10 @@ export default class Graph {
 		this.addEdge = function (a, b) {
 			a = parseInt(a);
 			b = parseInt(b);
+			if((a >= adjacencyList.length) || (b >= adjacencyList.length)){
+				swal("Invalid Input","Edges are out of bounds","error")
+      			return;
+			}
 			if (a == b)
 				return;
 			for (let i = 0; i < adjacencyList[a].length; i++) {
@@ -158,6 +162,10 @@ export default class Graph {
 		this.deleteEdge = function (a, b) {
 			a = parseInt(a);
 			b = parseInt(b);
+			if((a >= adjacencyList.length) || (b >= adjacencyList.length)){
+				swal("Invalid Input","Edges are out of bounds","error")
+      			return;
+			}
 			let newList = [];
 			for (let i = 0; i < adjacencyList[a].length; i++) {
 				if (adjacencyList[a][i] == b)
@@ -174,12 +182,12 @@ export default class Graph {
 			adjacencyList[b] = newList;
 			edges--;
 		};
-		this.updateNode = function (x, y, pos) {
+		this.updateNode = (x, y, pos) => {
 			vertices[pos].x_cor = x;
 			vertices[pos].y_cor = y;
 			this.show();
 		};
-		this.show = function () {
+		this.show =  () => {
 			document.getElementById("graph").innerHTML = "";
 			let err = 0;
 			for (let i = 0; i < adjacencyList.length; i++) {
@@ -214,7 +222,7 @@ export default class Graph {
 				alert("Some Edges were out of bounds! ");
 			for (let i = 0; i < noOfVertice; i++) {
 				const el = document.getElementById("graph");
-				const ver = document.createElementNS(
+				const ver = document.createElementNS( // it means the circle tag belongs to svg and not any other xml format 
 					"http://www.w3.org/2000/svg",
 					"circle"
 				);
@@ -226,8 +234,8 @@ export default class Graph {
 
 				let x_ver = vertices[i].x_cor;
 				let y_ver = vertices[i].y_cor;
-				let x_text = x_ver - 3;
-				let y_text = y_ver + 6;
+				let x_text = x_ver;
+				let y_text = y_ver;
 				let id_cir = "cir" + i;
 				let id_text = "txt" + i;
 				let className = "node" + i;
@@ -240,6 +248,8 @@ export default class Graph {
 				txt.style["font-size"] = "16";
 				txt.setAttributeNS(null, "x", x_text);
 				txt.setAttributeNS(null, "y", y_text);
+				txt.setAttributeNS(null, "text-anchor", "middle"); // to put the txt inside the circle at the center
+				txt.setAttributeNS(null, "alignment-baseline", "central"); // to put the txt inside the circle at the center
 				txt.setAttributeNS(null, "stroke", "white");
 				ver.setAttributeNS(null, "r", "15");
 				ver.setAttributeNS(null, "id", id_cir);

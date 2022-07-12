@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/boot.css" />
+    <link rel="stylesheet" href="styles/style2.css" />
     <title>Graph Analyser</title>
     <script
       src="https://kit.fontawesome.com/a076d05399.js"
@@ -33,9 +34,25 @@
     <div class="sideBar">
       <b>
         <ul class="side">
-          <li id="v2" style="padding-bottom: 20px" onclick="graph.setMode(1)">
-            Add Edge
-          </li>
+          <div
+             onmouseover="document.getElementById('InsertEdge').style.display = 'block'"
+            onmouseout="document.getElementById('InsertEdge').style.display = 'none'"
+          >
+            <li id="v1" style="padding-bottom: 20px">Add Edge</li>
+            <ul class=""  id="InsertEdge">
+              <li style = "display:flex;justify-content: center;">
+                <input
+                  type="text"
+                  id="insertEdge"
+                  class = "my-form-control"
+                  placeholder="Enter the edge in 'x y' form"
+                ></input>
+              </li>
+              <li>
+                <button type="submit" class="btn btn-primary" onclick="newEdge(graph)">Submit</button>
+              </li>
+            </ul>
+          </div>
           <li
             onclick="graph.addVertices(1,graph)"
             style="padding-bottom: 20px; cursor: pointer"
@@ -48,17 +65,18 @@
           >
             <li id="v3" style="padding-bottom: 20px">Delete Edge</li>
             <ul class="d" id="d5">
-              <li>
-                <textarea
+              <li style = "display:flex;justify-content:center;">
+                <input
                   type="text"
                   id="deleteEdge"
-                  style="height: 20px"
-                ></textarea>
+                  class = "my-form-control"
+                  placeholder="Enter the edge in 'x y' form"
+                ></input>
               </li>
               <li>
                 <input
                   type="submit"
-                  class="submit"
+                  class="btn btn-primary"
                   onclick="deleteEdge(graph)"
                 />
               </li>
@@ -89,16 +107,25 @@
             onmouseout="document.getElementById('d4').style.display = 'none' "
           >
             <li style="padding-bottom: 20px">New Graph</li>
-			<form>
-            <ul class="d" id="d4">
+            <form>
+              <ul class="d" id="d4">
                 <li><h2>Enter the number of vertices in the graph</h2></li>
-                <li>
+                <!-- <li>
                   <input
                     type="text"
                     id="vertices"
                     placeholder="Enter a positive number"
-					oninput = "handleNumberOfVerticesChange(event)"
+                    oninput="handleNumberOfVerticesChange(event)"
                   />
+                </li> -->
+                <li style = "display:flex;justify-content: center;">
+                  <input
+                    type="text"
+                    id="vertices"
+                    class = "my-form-control"
+                    placeholder="Enter the number of nodes"
+                    oninput="handleNumberOfVerticesChange(event)"
+                  ></input>
                 </li>
                 <li><h2>Enter the edges in the list</h2></li>
                 <li><textarea type="text" id="edges"></textarea></li>
@@ -110,8 +137,8 @@
                     onclick="validate(event)"
                   />
                 </li>
-            </ul>
-		</form>
+              </ul>
+            </form>
           </div>
         </ul>
       </b>

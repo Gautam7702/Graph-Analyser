@@ -11,7 +11,7 @@ export default class MouseEvents {
 			classes[1].setAttributeNS(null, "stroke", "black"); // text is by default white but on hover it becomes black color
 		};
 		
-		this.onMouseMove =  (mode, event, obj) => {
+		this.onMouseMove =  (mode, event, obj) => { // this function is only called on mousedown event
 			let bodyRect = document.body.getBoundingClientRect();
 			let Rect = document.getElementById("graph").getBoundingClientRect();
 			let diff = Rect.top - bodyRect.top;
@@ -37,12 +37,12 @@ export default class MouseEvents {
 						return;
 					}
 					let className = dragObject.getAttribute("class");
-					className = parseInt(className.replace("node", ""));
-					
+					let nodeValue = parseInt(className.replace("node", "")); 
+					// finds the node number and updates its position corresponding to the mouse
 					if (event.pageX >= Rect.right || event.pageY <= Rect.top) {
 						return;
 					}
-					graph.updateNode(event.pageX, event.pageY - diff, className);
+					graph.updateNode(event.pageX, event.pageY - diff, nodeValue);
 				}
 			}
 		};
