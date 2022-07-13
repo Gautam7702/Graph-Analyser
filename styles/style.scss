@@ -1,7 +1,7 @@
 *{
     padding:0px;
     margin:0px;
-    color : #FF5400;
+    color : #E45826;
 }
 #edges{
     height: 100px;
@@ -10,11 +10,11 @@
 .graph_sheet{
     padding:0px;
     margin:0px;
-    height: 85vh;
-    top :15vh;
+    height: auto;
+    // top :15vh;
     width: 80%;
-    position: absolute;
-    background-color: #545454;
+    // position: absolute;
+    background-color: #ECECEB;
 }
 .node{
     border-radius: 40px;
@@ -32,36 +32,14 @@ ul{
     padding-left:0
 }
 
-.header{
-    font-size : 3vh;
-    height : 300px;
-    font-weight: 5000;
-    padding-top: 35px;
-    width: 100%;
-    background-color: #000000;
-    /* color :  white; */
-    font-family:'Ubuntu', sans-serif;
-    text-align: center;
-    letter-spacing: 15px;
-}
-.sideBar{
-    font-size: 2vh;
-    font-weight: 5000;
-    position:absolute;
-    top :15vh;
-    right:0px;
-    width: 20%;
-    background-color: #000000;
-    height: 85vh;
-    /* color : white; */
-}
+
+
 .header img{
-    position: absolute;
+    // position: absolute;
     width: 90px;
     height: 90px;
-    left: 18px; 
-    top : 18px;
-
+    // left: 18px; 
+    // top : 18px;
 }
 textarea{
      /* top:100px; */
@@ -74,24 +52,8 @@ textarea{
      color : black;
      font-weight: bold;
 }
-.side ul{
-    /* margin-left : 60px; */
-    display:none;
-    text-align: center;
 
-}
-.side li{
-    position:relative;
-    text-align: center;
-    font-size: 3vh;
-    margin:10px;
-    font-family: 'Zen Kaku Gothic Antique', sans-serif;
-}
 
-.side li:hover{
-    color: #FFAD22;
-    font-size: 30px;
-}
 .submit{
     position:relative;
     /* top:100px; */

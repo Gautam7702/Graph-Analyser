@@ -81,7 +81,8 @@ export default class Graph {
 				line.setAttributeNS(null, "y1", vertices[vertex].y_cor);
 				line.setAttributeNS(null, "x2", vertices[vertex].x_cor);
 				line.setAttributeNS(null, "y2", vertices[vertex].y_cor);
-				line.setAttributeNS(null, "style", "stroke:white;stroke-width:2");
+				line.setAttributeNS(null, "style", "stroke:black;stroke-width:2");
+				
 				line.setAttribute("id", "Moving Edge");
 				temp_edge = vertex;
 				el.appendChild(line);
@@ -187,8 +188,22 @@ export default class Graph {
 			vertices[pos].y_cor = y;
 			this.show();
 		};
+		this.endpoint = (a,b,c,d) => {
+			let dis = Math.sqrt((c - a)*(c - a) + (d - b)*(d - b))
+			let newx = ((dis-25)*a + 25*c)/dis;
+			let newy = ((dis-25)*b + 25*d)/dis;
+			console.log(newx,newy)
+			return {newx,newy};
+		}
 		this.show =  () => {
-			document.getElementById("graph").innerHTML = "";
+			document.getElementById("graph").innerHTML = `<defs>
+			<marker id="arrow" refX="5" refY="5"
+				fill = "red"
+				markerWidth="10" markerHeight="10"
+				orient="auto-start-reverse">
+				<path d="M 0 0 L 10 5 L 0 10 z" />
+			</marker>        
+		  </defs>`;
 			let err = 0;
 			for (let i = 0; i < adjacencyList.length; i++) {
 				for (let j = 0; j < adjacencyList[i].length; j++) {
@@ -209,12 +224,18 @@ export default class Graph {
 						"http://www.w3.org/2000/svg",
 						"line"
 					);
+					let {newx:x1_,newy:y1_} = this.endpoint(x1,y1,x2,y2);
+					// line.setAttributeNS(null, "x1", x1_); // for arrow
+					// line.setAttributeNS(null, "y1", y1_); // for arrow
 					line.setAttributeNS(null, "x1", x1);
-					line.setAttributeNS(null, "x2", x2);
 					line.setAttributeNS(null, "y1", y1);
+					// console.log(x2,y2)
+					// console.log(x2_,y2_)
+					line.setAttributeNS(null, "x2", x2);
 					line.setAttributeNS(null, "y2", y2);
 					// line.setAttributeNS(null,"style","z-index : -1;")
-					line.setAttributeNS(null, "style", "stroke:white;stroke-width:2");
+					// line.setAttributeNS(null, "marker-start", "url(#arrow)") // for arrow
+					line.setAttributeNS(null, "style", "stroke:black;stroke-width:2");
 					el.appendChild(line);
 				}
 			}

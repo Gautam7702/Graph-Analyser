@@ -1,0 +1,23 @@
+.header {
+  width: 100%;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 10% 70% 20%;
+  grid-template-rows: auto;
+  background-color: #000000;
+}
+
+.Heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ubuntu", sans-serif;
+  text-align: center;
+}
+
+.Options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=header.css.map */

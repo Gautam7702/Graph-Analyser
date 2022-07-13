@@ -1,5 +1,17 @@
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
-
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
+    "master" :    #E45826,
+    );
+    
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
 .my-form-control{
     @extend .form-control;
     width:70%;

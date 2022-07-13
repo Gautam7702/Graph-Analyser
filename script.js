@@ -1,7 +1,20 @@
+'use strict';
+
 import Graph from "./Components/Graph.js";
+
+let Header = document.getElementById("Header");
+let height = Header.offsetHeight // return the height of the header
+let sideBar = document.getElementById("sideBar");  
+sideBar.style.height = String(window.innerHeight - height) + "px"; // viewport height - height of header
+// console.log(sideBar.style.height)
+let graphSheet = document.getElementById("graphSheet");
+graphSheet.style.height = String(window.innerHeight - height) + "px";
 window.graph = new Graph("My graph");
 // console.log(window.graph);
 
+window.dismiss= ()=> {
+  $('.alert').alert('close')
+}
 
 /*****************************************Functions for making a new graph **************************/
 window.makeGraph = (graph,edge_list,number_of_nodes) => {

@@ -1,116 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles/boot.css" />
-    <link rel="stylesheet" href="styles/style.css" />
-    <title>Graph Analyser</title>
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap"
-      rel="stylesheet"
-    />
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  </head>
-  <body>
-    <div class="header">
-      <img src="logo.png" />
-      <h1>Graph Visualizer</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/boot.css" />
+  <link rel="stylesheet" href="styles/header.css" />
+  <link rel="stylesheet" href="styles/sidebar.css" />
+  <link rel="stylesheet" href="styles/style.css" />
+  <title>Graph Analyser</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@300&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg header" id="Header">
+    <div>
+      <img class="" src="logo.png" />
     </div>
-    <div class="sideBar">
-      <b>
-        <ul class="side">
-          <div
-             onmouseover="document.getElementById('InsertEdge').style.display = 'block'"
-            onmouseout="document.getElementById('InsertEdge').style.display = 'none'"
-          >
-            <li id="v1" style="padding-bottom: 20px">Add Edge</li>
-            <ul class=""  id="InsertEdge">
-              <li style = "display:flex;justify-content: center;">
-                <input
-                  type="text"
-                  id="insertEdge"
-                  class = "my-form-control"
-                  placeholder="Enter the edge in 'x y' form"
-                ></input>
-              </li>
-              <li>
-                <button type="submit" class="btn btn-primary" onclick="newEdge(graph)">Submit</button>
-              </li>
-            </ul>
+    <div class="Heading">
+      <h1 class="nav-item">Graph Visualizer</h1>
+    </div>
+    <div class="Options">
+      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+        <label class="btn btn-outline-master" for="btnradio1">Undirected</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-master" for="btnradio2">Directed</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+        <label class="btn btn-outline-master" for="btnradio3">Weighted</label>
+      </div>
+    </div>
+  </nav>
+  <div class="sideBar" id="sideBar">
+    <b>
+      <ul class="side">
+        <div
+          onmouseover="document.getElementById('InsertEdge').style.display = 'block';document.getElementById('v1').style.paddingBottom = '20px'"
+          onmouseout="document.getElementById('InsertEdge').style.display = 'none';document.getElementById('v1').style.paddingBottom = '0'">
+          <div class="optiondecoration">
+            <li id="v1" class="optiondecoration">Add Edge</li>
           </div>
-          <li
-            onclick="graph.addVertices(1,graph)"
-            style="padding-bottom: 20px; cursor: pointer"
-          >
+          <ul class="" id="InsertEdge">
+            <li>
+              <!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
+              <div class="alert alert-info alert-dismissible fade show information" role="alert">
+                <h2 class="alert-heading"><strong>Instructions</strong></h2>
+                Add the edge by giving the input below. You can also add a new edge by first single clicking on the
+                start node which will generate a new edge and then single clicking on the end node
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </li>
+            <li style="display:flex;justify-content: center;">
+              <input type="text" id="insertEdge" class="my-form-control"
+                placeholder="Enter the edge in 'x y' form"></input>
+            </li>
+            <li>
+              <button type="submit" class="btn btn-primary" onclick="newEdge(graph)">Submit</button>
+            </li>
+          </ul>
+        </div>
+        <div class="optiondecoration">
+          <li onclick="graph.addVertices(1,graph)" style="cursor: pointer" class="optiondecoration">
             Add Vertex
           </li>
-          <div
-            onmouseover="document.getElementById('d5').style.display = 'block'"
-            onmouseout="document.getElementById('d5').style.display = 'none'"
-          >
-            <li id="v3" style="padding-bottom: 20px">Delete Edge</li>
-            <ul class="d" id="d5">
-              <li style = "display:flex;justify-content:center;">
-                <input
-                  type="text"
-                  id="deleteEdge"
-                  class = "my-form-control"
-                  placeholder="Enter the edge in 'x y' form"
-                ></input>
-              </li>
-              <li>
-                <input
-                  type="submit"
-                  class="btn btn-primary"
-                  onclick="deleteEdge(graph)"
-                />
-              </li>
-            </ul>
+        </div>
+        <div onmouseover="document.getElementById('d5').style.display = 'block';document.getElementById('v3').style.paddingBottom = '20px'"
+          onmouseout="document.getElementById('d5').style.display = 'none';document.getElementById('v3').style.paddingBottom = '0px'">
+          <div class="optiondecoration">
+            <li id="v3" class="optiondecoration">Delete Edge</li>
           </div>
-          <div
-            onmouseover="document.getElementById('d3').style.display = 'block'"
-            onmouseout="document.getElementById('d3').style.display = 'none'"
-          >
-            <li style="padding-bottom: 20px">Algorithm</li>
-            <ul class="d" id="d3">
-              <li
-                onclick="graph.setMode(2)"
-                style="font-size: 23px; cursor: pointer"
-              >
+          <ul class="d" id="d5">
+            <li style="display:flex;justify-content:center;">
+              <input type="text" id="deleteEdge" class="my-form-control"
+                placeholder="Enter the edge in 'x y' form"></input>
+            </li>
+            <li>
+              <input type="submit" class="btn btn-primary" onclick="deleteEdge(graph)" />
+            </li>
+          </ul>
+        </div>
+        <div onmouseover="document.getElementById('v4').style.display = 'block';document.getElementById('v4').style.paddingBottom = '20px'"
+          onmouseout="document.getElementById('v4').style.display = 'none';document.getElementById('v4').style.paddingBottom = '0px'">
+          <div class="optiondecoration">
+            <li >Algorithm</li>
+          </div>
+          <ul class="d" id="v4">
+            <div class="optiondecoration">
+              <li onclick="graph.setMode(2)" style="font-size: 23px; cursor: pointer">
                 BFS
               </li>
-              <li
-                onclick="graph.setMode(3);"
-                style="font-size: 23px; cursor: pointer"
-              >
+            </div>
+            <div class="optiondecoration">
+              <li onclick="graph.setMode(3);" style="font-size: 23px; cursor: pointer">
                 DFS
               </li>
-            </ul>
+            </div>
+          </ul>
+        </div>
+        <div onmouseover="document.getElementById('v5').style.display = 'block';document.getElementById('v5').style.paddingBottom = '20px'"
+          onmouseout="document.getElementById('v5').style.display = 'none';document.getElementById('v5').style.paddingBottom = '0px'">
+          <div class="optiondecoration">
+            <li  class="optiondecoration">New Graph</li>
           </div>
-          <div
-            onmouseover="document.getElementById('d4').style.display = 'block'"
-            onmouseout="document.getElementById('d4').style.display = 'none' "
-          >
-            <li style="padding-bottom: 20px">New Graph</li>
-            <form>
-              <ul class="d" id="d4">
-                <li><h2>Enter the number of vertices in the graph</h2></li>
-                <!-- <li>
+          <form>
+            <ul class="d" id="v5">
+              <li>
+                <h2>Enter the number of vertices in the graph</h2>
+              </li>
+              <!-- <li>
                   <input
                     type="text"
                     id="vertices"
@@ -118,40 +131,37 @@
                     oninput="handleNumberOfVerticesChange(event)"
                   />
                 </li> -->
-                <li style = "display:flex;justify-content: center;">
-                  <input
-                    type="text"
-                    id="vertices"
-                    class = "my-form-control"
-                    placeholder="Enter the number of nodes"
-                    oninput="handleNumberOfVerticesChange(event)"
-                  ></input>
-                </li>
-                <li><h2>Enter the edges in the list</h2></li>
-                <li><textarea type="text" id="edges"></textarea></li>
-                <li>
-                  <input
-                    class="submit"
-                    type="submit"
-                    id="submit"
-                    onclick="validate(event)"
-                  />
-                </li>
-              </ul>
-            </form>
-          </div>
-        </ul>
-      </b>
-    </div>
-    <div class="graph_sheet">
-      <!-- <input class = "submit" type="submit" id = "submit" onclick="Input()">   -->
-      <svg
-        id="graph"
-        height="85vh"
-        width="80vw"
-        xmlns="http://www.w3.org/2000/svg"
-      ></svg>
-    </div>
-    <script src="./script.js" type="module"></script>
-  </body>
+              <li style="display:flex;justify-content: center;">
+                <input type="text" id="vertices" class="my-form-control" placeholder="Enter the number of nodes"
+                  oninput="handleNumberOfVerticesChange(event)"></input>
+              </li>
+              <li>
+                <h2>Enter the edges in the list</h2>
+              </li>
+              <li><textarea type="text" id="edges"></textarea></li>
+              <li>
+                <input class="submit" type="submit" id="submit" onclick="validate(event)" />
+              </li>
+            </ul>
+          </form>
+        </div>
+      </ul>
+    </b>
+  </div>
+  <div class="graph_sheet" id="graphSheet">
+
+    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+      </defs>
+
+    </svg>
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="./script.js" type="module"></script>
+</body>
+
 </html>
