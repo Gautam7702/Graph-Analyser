@@ -3,6 +3,16 @@ let dragObject;
 export default class MouseEvents {
 	constructor(graph) {
 		// passing graph object on which mouseevents will work
+		this.funcType = {
+			Undirected:{
+			  updateNode : (a,b,c) => {graph.updateNodeUndirected(a,b,c)},
+			  drawEdge : (v) => {graph.drawEdgeUndirected(v)}
+			}
+			,Directed:{
+				updateNode : (a,b,c) => {graph.updateNodeDirected(a,b,c)},
+				drawEdge : (v) => {graph.drawEdgeDirected(v)}
+			}
+		  }
 		// console.log(graph.graphVerticie);
 		this.onMouseOver = (mode, event, obj) => {
 			let className = obj.getAttribute("class");
@@ -42,7 +52,9 @@ export default class MouseEvents {
 					if (event.pageX >= Rect.right || event.pageY <= Rect.top) {
 						return;
 					}
-					graph.updateNode(event.pageX, event.pageY - diff, nodeValue);
+					// graph.updateNode(event.pageX, event.pageY - diff, nodeValue);
+					// console.log(graph.graphmode)
+					this.funcType[graph.graphmode].updateNode(event.pageX, event.pageY - diff, nodeValue);
 				}
 			}
 		};
@@ -108,7 +120,8 @@ export default class MouseEvents {
 						},
 						false
 					);
-					graph.drawEdge(className);
+					console.log(graph.graphmode)
+					this.funcType[graph.graphmode].drawEdge(className);
 					break;
 				}
 				case 2: {
