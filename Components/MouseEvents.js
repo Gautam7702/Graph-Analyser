@@ -1,19 +1,7 @@
 let dragObject;
 
 export default class MouseEvents {
-	constructor(graph) {
-		// passing graph object on which mouseevents will work
-		this.funcType = {
-			Undirected:{
-			  updateNode : (a,b,c) => {graph.updateNodeUndirected(a,b,c)},
-			  drawEdge : (v) => {graph.drawEdgeUndirected(v)}
-			}
-			,Directed:{
-				updateNode : (a,b,c) => {graph.updateNodeDirected(a,b,c)},
-				drawEdge : (v) => {graph.drawEdgeDirected(v)}
-			}
-		  }
-		// console.log(graph.graphVerticie);
+	constructor() {
 		this.onMouseOver = (mode, event, obj) => {
 			let className = obj.getAttribute("class");
 			let classes = document.getElementsByClassName(className);
@@ -21,7 +9,7 @@ export default class MouseEvents {
 			classes[1].setAttributeNS(null, "stroke", "black"); // text is by default white but on hover it becomes black color
 		};
 		
-		this.onMouseMove =  (mode, event, obj) => { // this function is only called on mousedown event
+		this.onMouseMove =  (mode, event,graph) => { // this function is only called on mousedown event
 			let bodyRect = document.body.getBoundingClientRect();
 			let Rect = document.getElementById("graph").getBoundingClientRect();
 			let diff = Rect.top - bodyRect.top;
@@ -52,16 +40,13 @@ export default class MouseEvents {
 					if (event.pageX >= Rect.right || event.pageY <= Rect.top) {
 						return;
 					}
-					// graph.updateNode(event.pageX, event.pageY - diff, nodeValue);
-					// console.log(graph.graphmode)
-					this.funcType[graph.graphmode].updateNode(event.pageX, event.pageY - diff, nodeValue);
+					graph.updateNode(event.pageX, event.pageY - diff, nodeValue)
 				}
 			}
 		};
 
-		this.onMouseDown = (mode, event, obj)=> {
+		this.onMouseDown = (mode, event, obj,graph)=> {
 			dragObject = obj;
-
 			let graphSheet = document.getElementById("graph");
 			graphSheet.addEventListener(
 				"mouseleave",
@@ -73,13 +58,13 @@ export default class MouseEvents {
 			graphSheet.addEventListener(
 				"mousemove",
 				(event) => {
-					this.onMouseMove(mode, event, graphSheet);
+					this.onMouseMove(mode, event,graph);
 				},
 				false
 			);
 		};
 
-		this.onMouseUp = function (mode, event, obj) {
+		this.onMouseUp = function (mode, event, obj,graph) {
 			dragObject = null;
 
 			let graphSheet = document.getElementById("graph");
@@ -93,13 +78,13 @@ export default class MouseEvents {
 			graphSheet.removeEventListener(
 				"mousemove",
 				(event) => {
-					this.onMouseMove(mode, event, graphSheet);
+					this.onMouseMove(mode, event,graph);
 				},
 				false
 			);
 		};
 
-		this.onClick = function (mode, event, obj) {
+		this.onClick = function (mode, event, obj,graph) {
 			let className = obj.getAttribute("class");
 			className = className.replace("node", "");
 			var classname = parseInt(className);
@@ -116,12 +101,11 @@ export default class MouseEvents {
 					graphSheet.addEventListener(
 						"mousemove",
 						(event) => {
-							this.onMouseMove(mode, event, graphSheet);
+							this.onMouseMove(mode, event,graph);
 						},
 						false
 					);
-					console.log(graph.graphmode)
-					this.funcType[graph.graphmode].drawEdge(className);
+					graph.drawEdge(className)
 					break;
 				}
 				case 2: {

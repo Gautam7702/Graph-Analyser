@@ -1,6 +1,6 @@
-"use strict";
+// "use strict";
 
-import Graph from "./Components/Graph.js";
+import {UndirectedGraph , DirectedGraph} from "./Components/Graph.js";
 
 let Header = document.getElementById("Header");
 let height = Header.offsetHeight; // return the height of the header
@@ -9,64 +9,88 @@ sideBar.style.height = String(window.innerHeight - height) + "px"; // viewport h
 // console.log(sideBar.style.height)
 let graphSheet = document.getElementById("graphSheet");
 graphSheet.style.height = String(window.innerHeight - height) + "px";
-window.graph = new Graph("My graph","Undirected");
+window.undirectedGraph = new UndirectedGraph("My graph","Undirected");
+window.directedGraph = new DirectedGraph()
 window.graphMode = "Undirected";
-// console.log(window.graph);
 
 // Switching between directed and undirected
 document.getElementById("Undirected").addEventListener("click", () => {
   window.graphMode = "Undirected";
-  window.graph = new Graph("My graph","Undirected");
-  window.makeGraph([],0);
-  // console.log(window.graphMode);
+  document.getElementById("graphSheet").innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+</svg>`
+  window.undirectedGraph.show();
 });
+
+
 document.getElementById("Directed").addEventListener("click", () => {
   window.graphMode = "Directed";
-  window.graph = new Graph("My graph","Directed");
-  window.makeGraph([],0);
-  // console.log(window.graphMode);
+  document.getElementById("graphSheet").innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+</svg>
+`
+  window.directedGraph.show()
 });
+
+
+/*************************************************************************** */
 window.funcType = {
   Undirected: {
     show: () => {
-      window.graph.showUndirected();
+      window.undirectedGraph.show();
     },
     deleteEdge: (a, b) => {
-      window.graph.deleteEdgeUndirected(a, b);
+      window.undirectedGraph.deleteEdge(a, b);
     },
     addEdge: (a, b) => {
-      window.graph.addEdgeUndirected(a, b);
+      window.undirectedGraph.addEdge(a, b);
     },
+    setVertices : (n) =>{
+      window.undirectedGraph.setVertices(n);    
+    }
   },
   Directed: {
     show: () => {
-      window.graph.showDirected();
+      window.directedGraph.show();
     },
     deleteEdge: (a,b) => {
-      window.graph.deleteEdgeDirected(a,b);
+      window.directedGraph.deleteEdge(a,b);
     },
     addEdge: (a,b) => {
-      window.graph.addEdgeDirected(a,b);
+      window.directedGraph.addEdge(a,b);
     },
+    setVertices : (n) =>{
+      window.directedGraph.setVertices(n);    
+    }
   },
 };
 
 /*****************************************Functions for making a new graph **************************/
 window.makeGraph = (edge_list, number_of_nodes) => {
   // this functions forms a new graph of the validated data
-  window.graph.setVertices(number_of_nodes);
+  window.funcType[window.graphMode].setVertices(number_of_nodes)
   for (let i = 0; i < edge_list.length; i++) {
     let edgeNodes = edge_list[i].split(" ");
     let a = Number(edgeNodes[0]),
       b = Number(edgeNodes[1]);
-    console.log(a,b)
+    // console.log(a,b)
     window.funcType[window.graphMode].addEdge(a - 1, b - 1);
   }
   window.funcType[window.graphMode].show();
   // setInterval(graph.show(),100);
 };
 
-window.validate = (event) => {
+window.makeNewGraph = (event) => {
   event.preventDefault();
   let number_of_nodes = document.getElementById("vertices").value;
   let desiredNumberPattern = /^\d+$/,
@@ -91,7 +115,9 @@ window.validate = (event) => {
     }
     filteredEdgeList.push(edge);
   }
-  window.graph = new Graph("My Graph",window.graphMode);
+  if(window.graphMode === "Undirected")
+  window.undirectedGraph = new UndirectedGraph("My Graph","Undirected");
+  else window.directedGraph = new DirectedGraph();
   window.makeGraph(filteredEdgeList, Number(number_of_nodes));
 };
 
@@ -136,9 +162,33 @@ window.deleteEdge = () => {
   }
   m = m.split(" ");
   for (let i = 0; i < m.length; i += 2) {
-    console.log(window.graphMode)
+    // console.log(window.graphMode)
     window.funcType[window.graphMode].deleteEdge(m[i] - 1, m[i + 1] - 1);
   }
   window.funcType[window.graphMode].show();
 };
 /************************************************************************************************/
+
+
+
+/**************************** Functions for HTML elements *****************************************************/
+
+document.getElementById("Add Vertex").addEventListener('click',()=> {
+  if(window.graphMode === "Undirected")
+    window.undirectedGraph.addVertices(1)
+  else window.directedGraph.addVertices(1)
+})
+document.getElementById("Add Edge").addEventListener('click',()=> {
+  window.newEdge()
+})
+document.getElementById("Delete Edge").addEventListener('click',()=> {
+  window.deleteEdge()
+})
+
+document.getElementById("vertices").addEventListener('input',(event)=>{
+  window.handleNumberOfVerticesChange(event)
+})
+
+document.getElementById("submitNewGraph").addEventListener('click',(event)=>{
+  window.makeNewGraph(event)
+})
