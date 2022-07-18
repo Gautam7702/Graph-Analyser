@@ -109,16 +109,17 @@ export default class MouseEvents {
 					break;
 				}
 				case 2: {
-					console.log(className);
+					console.log(classname);
+					graph.setMode(2,classname+1)
 					graph.show();
-					graph.bfs(className);
+					// graph.bfs(className);
 					break;
 				}
 				case 3: {
 					console.log(className);
-					className = parseInt(className);
+					graph.setMode(3,classname+1)
 					graph.show();
-					graph.dfs(className);
+					// graph.dfs(className);
 					break;
 				}
 			}
@@ -126,8 +127,8 @@ export default class MouseEvents {
 		this.onMouseOut = function (mode, event, obj) {
 			let className = obj.getAttribute("class");
 			let classes = document.getElementsByClassName(className);
-			classes[0].setAttributeNS(null, "fill", "black");
-			classes[1].setAttributeNS(null, "stroke", "white");
+			classes[0].setAttributeNS(null, "fill", "white");
+			classes[1].setAttributeNS(null, "stroke", "black");
 		};
 		this.onMouseLeave = function (mode, event, obj) {
 			dragObject = null;

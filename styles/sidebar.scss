@@ -1,39 +1,65 @@
-.information{
-    font-size:large;
+.information {
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  font-size: large;
+  text-align: center;
 }
-.sideBar{
-    font-size: 2vh;
-    font-weight: 5000;
-    position:absolute;
-    top :auto;
-    right:0px;
-    width: 20%;
-    background-color:#10316B;
-    
-    // height: 85vh;
-    /* color : white; */
+.sideBar {
+  font-size: 2vh;
+  position: absolute;
+  top: auto;
+  right: 0px;
+  width: 20%;
+  background-color: #10316b;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /*
+    Distribute items evenly
+                                   The first item is flush with the start,
+                                   the last is flush with the end */
 }
-.side{
-    display:grid;
-    grid-template-rows: auto auto auto auto auto;
-    row-gap:5px; 
+.side {
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  row-gap: 5px;
 }
-.side ul{
-    /* margin-left : 60px; */
-    display:none;
-    text-align: center;
+.side ul {
+  /* margin-left : 60px; */
+  display: none;
+  text-align: center;
 }
-.side li{
-    position:relative;
-    text-align: center;
-    font-size: 3vh;
-    margin:10px;
-    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+.side li {
+  position: relative;
+  text-align: center;
+  font-size: 3vh;
+  margin: 10px;
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
 }
 
-.optiondecoration li:hover{ // li inside the option decoration class will have this hovering effect
-    color: #FFAD22;
-    font-size: 30px;
-    text-decoration: underline #FFAD22;
-    text-underline-offset: 10px;
+.optiondecoration li:hover {
+  // li inside the option decoration class will have this hovering effect
+  color: #ffad22;
+  font-size: 30px;
+  text-decoration: underline #ffad22;
+  text-underline-offset: 10px;
+}
+
+.animationButtons{
+    display:grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto auto;
+    row-gap: 5px;
+    column-gap: 5px;
+}
+
+.algorithm{
+    padding-top:  10px;
+    padding-bottom:  10px;
+}
+
+.DFSAlgo{
+    @extend .algorithm;
+}
+
+.BFSAlgo{
+    @extend .algorithm;
 }

@@ -1,4 +1,5 @@
 import MouseEvents from "./MouseEvents.js";
+import Animate from "./Animate.js";
 class Vertex {
   constructor(x, y) {
     this.x_cor = x;
@@ -7,88 +8,196 @@ class Vertex {
 }
 
 export class UndirectedGraph {
-  constructor(name,Mode) {
-    this.name = name;
-    this.graphmode = Mode
-    let graphObject = this;
-    let orderofbfs = [];
-    let orderofdfs = [];
+  constructor() {
+    // let orderofbfs = [];
+    // let orderofdfs = [];
     let vertices = [];
-    let noOfVertice = 0;
-    let mode = 1;
+    let noOfVertices = 0;
+    this.mode = 1;
+    this.root = 1;
+    this.animation = {};
     let temp_edge;
     let adjacencyList = [];
+    let animationArray = [];
     let edges = 0;
-    
-    // let update = 0;
+    let vis = [];
     let mouseEvent = new MouseEvents(this);
     this.setVertices = (n) => {
-      noOfVertice = n;
+      noOfVertices = n;
       for (let i = 0; i < n; i++) {
         adjacencyList.push([]);
       }
       createNodes();
     };
-    let cnt1 = 0,
-      cnt2 = 0,
-      cnt3 = 0;
-    this.setMode = function (m) {
-      mode = m;
-      switch (mode) {
+    // let cnt1 = 0,
+    //   cnt2 = 0,
+    //   cnt3 = 0;
+    this.setMode = function (m, r) {
+      this.mode = m;
+      this.root = r;
+      let sideBar = document.getElementById("sideBar");
+      let childenOfSideBar = sideBar.children;
+      while (childenOfSideBar.length > 1) {
+        sideBar.removeChild(sideBar.lastElementChild);
+      }
+      switch (this.mode) {
         case 1: {
-          if (cnt1 == 0) {
-            // alert(
-            // 	"You have entered edit mode! Click on the node you want to move and then move it."
-            // );
-            swal(
-              "EDIT MODE",
-              "Click on the node you want to move and then move it.",
-              "info"
-            );
-            // console.log(cnt1)
-          }
-          cnt1++;
           break;
         }
         case 2: {
-          if (cnt2 == 0) {
-            swal(
-              "BFS MODE",
-              "Click on the node from where you want to start BFS.",
-              "info"
-            );
-          }
-          cnt2++;
+          let newChild = document.createElement("div");
+          newChild.className = "container border border-dark BFSAlgo";
+          newChild.style = "height:auto";
+          newChild.id = "BFS";
+          newChild.innerHTML = `     <b>
+          <div class = "container" style = "text-align: center;">
+          <h1>BFS MODE</h1>
+          <h3 id = "root"> Root : ${this.root}</h3>
+          </div>
+          <div class="alert alert-info alert-dismissible fade show information" role="alert">
+          <h2 class="alert-heading"><strong>Instructions</strong></h2>
+          Click the node which you want to be the root
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class = "animationButtons">
+          <button type = "button" class="btn btn-primary" id = "undirectedStart">Start</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedPause">Pause</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedResume">Resume</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedPrev">Prev</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedNext">Next</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedReset">Reset</button>
+          <div></div>
+          <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
+          <div></div>
+          </div>
+          </b>
+          `;
+          sideBar.appendChild(newChild);
+          this.bfs();
+          document.getElementById("Exit").addEventListener("click", () => {
+            if (this.animation.array !== undefined) {
+              clearInterval(this.animation.intervalId);
+              this.animation.reset();
+            }
+            this.setMode(1, 1);
+          });
+          document
+            .getElementById("undirectedReset")
+            .addEventListener("click", () => {
+              this.reset();
+            });
+          document
+            .getElementById("undirectedNext")
+            .addEventListener("click", () => {
+              this.animation.next();
+            });
+          document
+            .getElementById("undirectedPrev")
+            .addEventListener("click", () => {
+              this.animation.prev();
+            });
+          document
+            .getElementById("undirectedResume")
+            .addEventListener("click", () => {
+              this.animation.resume();
+            });
+          document
+            .getElementById("undirectedPause")
+            .addEventListener("click", () => {
+              this.animation.pause();
+            });
+          document
+            .getElementById("undirectedStart")
+            .addEventListener("click", () => {
+              this.animation.start();
+            });
           break;
         }
         case 3: {
-          if (cnt3 == 0) {
-            swal(
-              "DFS MODE",
-              "Click on the node from where you want to start DFS.",
-              "info"
-            );
-          }
-          cnt3++;
+          let newChild = document.createElement("div");
+          newChild.className = "container border border-dark DFSAlgo";
+          newChild.style = "height:auto";
+          newChild.id = "DFS";
+          newChild.innerHTML = `      <b>
+          <div class = "container" style = "text-align: center;">
+          <h1>DFS MODE</h1>
+          <h3 id = "root"> Root : ${this.root}</h3>
+          </div>
+          <div class="alert alert-info alert-dismissible fade show information" role="alert">
+          <h2 class="alert-heading"><strong>Instructions</strong></h2>
+          Click the node which you want to be the root
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class = "animationButtons">
+          <button type = "button" class="btn btn-primary" id = "undirectedStart">Start</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedPause">Pause</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedResume">Resume</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedPrev">Prev</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedNext">Next</button>
+          <button type = "button" class="btn btn-primary" id = "undirectedReset">Reset</button>
+          <div></div>
+          <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
+          <div></div>
+          </div>
+          </b>
+          `;
+          sideBar.appendChild(newChild);
+          this.dfs(); // this functions makes the animation object of dfs walk
+          document.getElementById("Exit").addEventListener("click", () => {
+            if (this.animation.array !== undefined) {
+              clearInterval(this.animation.intervalId);
+              this.animation.reset();
+            }
+            this.setMode(1, 1);
+          });
+          document
+            .getElementById("undirectedReset")
+            .addEventListener("click", () => {
+              this.reset();
+            });
+          document
+            .getElementById("undirectedNext")
+            .addEventListener("click", () => {
+              this.animation.next();
+            });
+          document
+            .getElementById("undirectedPrev")
+            .addEventListener("click", () => {
+              this.animation.prev();
+            });
+          document
+            .getElementById("undirectedResume")
+            .addEventListener("click", () => {
+              this.animation.resume();
+            });
+          document
+            .getElementById("undirectedPause")
+            .addEventListener("click", () => {
+              this.animation.pause();
+            });
+          document
+            .getElementById("undirectedStart")
+            .addEventListener("click", () => {
+              this.animation.start();
+            });
           break;
         }
       }
     };
 
     this.addVertices = function (a) {
-      console.log(a)
+      // console.log(this);
       a = parseInt(a);
       for (let i = 0; i < a; i++) {
         adjacencyList.push([]);
         let v = new Vertex(avgx(), avgy());
         vertices.push(v);
       }
-      noOfVertice += a;
-      this.show();
-      
+      noOfVertices += a;
+      this.reset();
+      // this.show();
     };
 
-    
     this.drawEdge = function (vertex) {
       let movingEdge = document.getElementById("Moving Edge");
       let el = document.getElementById("graph");
@@ -111,14 +220,14 @@ export class UndirectedGraph {
         graphSheet.removeEventListener(
           "mouseleave",
           (event) => {
-            this.onMouseLeave(mode, event, graphSheet);
+            mouseEvent.onMouseLeave(this.mode, event, graphSheet);
           },
           false
         );
         graphSheet.removeEventListener(
           "mousemove",
           (event) => {
-            this.onMouseMove(mode, event, graphSheet,graphObject);
+            mouseEvent.onMouseMove(this.mode, event, graphSheet, this);
           },
           false
         );
@@ -131,12 +240,12 @@ export class UndirectedGraph {
     function createNodes() {
       let center_x = screen.width * 0.4;
       let center_y = screen.height * 0.3;
-      let angle = (2 * Math.PI) / noOfVertice;
+      let angle = (2 * Math.PI) / noOfVertices;
       var newvertices = [];
-      for (let i = 1; i <= noOfVertice; i++) {
+      for (let i = 1; i <= noOfVertices; i++) {
         let v;
-        let xcor = center_x + noOfVertice * 15 * Math.sin(i * angle);
-        let ycor = center_y + noOfVertice * 15 * Math.cos(i * angle);
+        let xcor = center_x + noOfVertices * 15 * Math.sin(i * angle);
+        let ycor = center_y + noOfVertices * 15 * Math.cos(i * angle);
         v = new Vertex(xcor, ycor);
         newvertices.push(v);
       }
@@ -144,21 +253,21 @@ export class UndirectedGraph {
     }
 
     function avgx() {
-      if (noOfVertice == 0) return screen.width * 0.4;
+      if (noOfVertices == 0) return screen.width * 0.4;
       let sum = 0;
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         sum += vertices[i].x_cor;
       }
-      return sum / noOfVertice;
+      return sum / noOfVertices;
     }
 
     function avgy() {
-      if (noOfVertice == 0) return screen.height * 0.3;
+      if (noOfVertices == 0) return screen.height * 0.3;
       let sum = 0;
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         sum += vertices[i].y_cor;
       }
-      return sum / noOfVertice;
+      return sum / noOfVertices;
     }
 
     this.addEdge = function (a, b) {
@@ -177,7 +286,6 @@ export class UndirectedGraph {
       edges++;
     };
 
-   
     this.deleteEdge = function (a, b) {
       a = parseInt(a);
       b = parseInt(b);
@@ -200,16 +308,14 @@ export class UndirectedGraph {
       edges--;
     };
 
-    
-
     this.updateNode = (x, y, pos) => {
+      // console.log(this)
       vertices[pos].x_cor = x;
       vertices[pos].y_cor = y;
       this.show();
     };
-    
+
     this.show = () => {
-      
       document.getElementById("graph").innerHTML = `<defs>
 			<marker id="arrow" refX="5" refY="5"
       fill = "red"
@@ -223,7 +329,7 @@ export class UndirectedGraph {
         for (let j = 0; j < adjacencyList[i].length; j++) {
           let x = i;
           let y = adjacencyList[i][j];
-          if (x > noOfVertice - 1 || y > noOfVertice - 1 || x < 0 || y < 0) {
+          if (x > noOfVertices - 1 || y > noOfVertices - 1 || x < 0 || y < 0) {
             err = 1;
             continue;
           }
@@ -252,7 +358,7 @@ export class UndirectedGraph {
         }
       }
       if (err) alert("Some Edges were out of bounds! ");
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         const el = document.getElementById("graph");
         const ver = document.createElementNS(
           // it means the circle tag belongs to svg and not any other xml format
@@ -275,7 +381,7 @@ export class UndirectedGraph {
 
         ver.setAttributeNS(null, "stroke", "black");
         ver.setAttributeNS(null, "stroke-width", "2");
-        ver.setAttributeNS(null, "fill", "black");
+        ver.setAttributeNS(null, "fill", "white");
         ver.setAttributeNS(null, "cx", x_ver);
         ver.setAttributeNS(null, "cy", y_ver);
         txt.style["font-size"] = "16";
@@ -283,7 +389,7 @@ export class UndirectedGraph {
         txt.setAttributeNS(null, "y", y_text);
         txt.setAttributeNS(null, "text-anchor", "middle"); // to put the txt inside the circle at the center
         txt.setAttributeNS(null, "alignment-baseline", "central"); // to put the txt inside the circle at the center
-        txt.setAttributeNS(null, "stroke", "white");
+        txt.setAttributeNS(null, "stroke", "black");
         ver.setAttributeNS(null, "r", "15");
         ver.setAttributeNS(null, "id", id_cir);
         txt.setAttributeNS(null, "id", id_text);
@@ -295,14 +401,14 @@ export class UndirectedGraph {
         ver.addEventListener(
           "mousedown",
           (event) => {
-            mouseEvent.onMouseDown(mode, event, ver,graphObject);
+            mouseEvent.onMouseDown(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "mousedown",
           (event) => {
-            mouseEvent.onMouseDown(mode, event, txt,graphObject);
+            mouseEvent.onMouseDown(this.mode, event, txt, this);
           },
           false
         );
@@ -310,14 +416,15 @@ export class UndirectedGraph {
         ver.addEventListener(
           "mouseup",
           (event) => {
-            mouseEvent.onMouseUp(mode, event, ver,graphObject);
+            mouseEvent.onMouseUp(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "mouseup",
           (event) => {
-            mouseEvent.onMouseUp(mode, event, txt,graphObject);
+            mouseEvent.onMouseUp(this.mode, event, txt, this);
+            // this points to the graph object
           },
           false
         );
@@ -325,14 +432,14 @@ export class UndirectedGraph {
         ver.addEventListener(
           "click",
           (event) => {
-            mouseEvent.onClick(mode, event, ver,graphObject);
+            mouseEvent.onClick(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "click",
           (event) => {
-            mouseEvent.onClick(mode, event, txt,graphObject);
+            mouseEvent.onClick(this.mode, event, txt, this);
           },
           false
         );
@@ -340,14 +447,14 @@ export class UndirectedGraph {
         ver.addEventListener(
           "mouseover",
           (event) => {
-            mouseEvent.onMouseOver(mode, event, ver);
+            mouseEvent.onMouseOver(this.mode, event, ver);
           },
           false
         );
         txt.addEventListener(
           "mouseover",
           (event) => {
-            mouseEvent.onMouseOver(mode, event, txt);
+            mouseEvent.onMouseOver(this.mode, event, txt);
           },
           false
         );
@@ -355,14 +462,14 @@ export class UndirectedGraph {
         ver.addEventListener(
           "mouseout",
           (event) => {
-            mouseEvent.onMouseOut(mode, event, ver);
+            mouseEvent.onMouseOut(this.mode, event, ver);
           },
           false
         );
         txt.addEventListener(
           "mouseout",
           (event) => {
-            mouseEvent.onMouseOut(mode, event, txt);
+            mouseEvent.onMouseOut(this.mode, event, txt);
           },
           false
         );
@@ -371,8 +478,7 @@ export class UndirectedGraph {
         el.append(txt);
       }
     };
-    
-    
+
     function color(arr, index) {
       className = "node" + arr[index];
       let classes = document.getElementsByClassName(className);
@@ -380,158 +486,278 @@ export class UndirectedGraph {
       classes[1].setAttributeNS(null, "stroke", "white");
     }
 
-    this.bfs = function (x) {
-      orderofbfs = [];
-      orderofbfs.push(parseInt(x));
-      let cur = 0;
-      let visit = [];
-      for (let i = 0; i < noOfVertice; i++) {
-        visit.push(0);
-      }
-
-      start = setInterval(function () {
-        color(orderofbfs, 0);
-        clearInterval(start);
-      }, 1000);
-
-      Iterator = setInterval(function () {
-        if (cur == orderofbfs.length) {
-          reset = setInterval(function () {
-            for (let i = 0; i < noOfVertice; i++) {
-              document
-                .getElementsByClassName("node" + i)[0]
-                .setAttribute("fill", "black");
-              clearInterval(reset);
-            }
-          }, 1000);
-          clearInterval(Iterator);
-          return;
-        }
-        let u = parseInt(orderofbfs[cur]);
-        let prev = orderofbfs.length - 1;
-        document
-          .getElementsByClassName("node" + orderofbfs[cur])[0]
-          .setAttributeNS(null, "stroke", "black");
-        visit[u] = 1;
-        for (let i = 0; i < adjacencyList[u].length; i++) {
-          v = parseInt(adjacencyList[u][i]);
-          if (visit[v] == 0) {
-            orderofbfs.push(v);
-            visit[v] = 1;
+    this.bfs = function () {
+      if (adjacencyList.length === 0) return;
+      vis = [];
+      for (let i = 0; i < noOfVertices; i++) vis.push(false);
+      animationArray = [];
+      let queue = [];
+      queue.push(this.root - 1);
+      vis[this.root - 1] = true;
+      animationArray.push({
+        change: () => {
+          document.getElementById(`undircir${this.root - 1}`).style.fill =
+            "black";
+          document.getElementById(`undirtxt${this.root - 1}`).style.stroke =
+            "white";
+        },
+        reverseChange: () => {
+          document.getElementById(`undircir${this.root - 1}`).style.fill =
+            "white";
+          document.getElementById(`undirtxt${this.root - 1}`).style.stroke =
+            "black";
+        },
+      });
+      while (queue.length > 0) {
+        let parent = queue.shift();
+        adjacencyList[parent].forEach((child) => {
+          if (vis[child] === false) {
+            queue.push(child);
+            vis[child] = true;
+            animationArray.push({
+              change: () => {
+                document.getElementById(`undircir${child}`).style.fill = "black";
+                document.getElementById(`undirtxt${child}`).style.stroke = "white";
+              },
+              reverseChange: () => {
+                document.getElementById(`undircir${child}`).style.fill = "white";
+                document.getElementById(`undirtxt${child}`).style.stroke = "black";
+              },
+            });
           }
-        }
-        cur++;
-        for (let i = prev + 1; i < orderofbfs.length; i++) {
-          color(orderofbfs, i);
-        }
-        document
-          .getElementsByClassName("node" + orderofbfs[cur])[0]
-          .setAttributeNS(null, "stroke", "white");
-      }, 1000);
-      console.log(orderofbfs);
+        });
+      }
+      this.animation = new Animate(animationArray);
+      this.animation.reset();
     };
 
-    this.dfs = function (x) {
-      orderofdfs = [];
-      algoReady();
-      let visit = [];
-      for (let i = 0; i < noOfVertice; i++) {
-        visit.push(0);
-      }
-      doDfs(visit, x);
-      index = 0;
-      myInterval = setInterval(function () {
-        color(orderofdfs, index);
-        index++;
-        if (index == orderofdfs.length) {
-          clearInterval(myInterval);
-          return;
-        }
-      }, 1000);
-      console.log(orderofdfs);
+    this.dfs = function () {
+      if (adjacencyList.length === 0) return;
+      vis = [];
+      for (let i = 0; i < noOfVertices; i++) vis.push(false);
+      animationArray = [];
+      this.dfsCall(this.root - 1);
+      this.animation = new Animate(animationArray);
+      this.animation.reset();
+      // console.log(this.animation)
     };
-    function doDfs(visit, x) {
-      console.log("yes");
-      if (visit[x] == 0) {
-        visit[x] = 1;
-        orderofdfs.push(x);
-        for (let i = 0; i < adjacencyList[x].length; i++) {
-          if (visit[adjacencyList[x][i]] == 0)
-            doDfs(visit, adjacencyList[x][i]);
-        }
+    this.dfsCall = function (v) {
+      // console.log(v)
+      vis[v] = true;
+      animationArray.push({
+        change: () => {
+          document.getElementById(`undircir${v}`).style.fill = "grey";
+          document.getElementById(`undirtxt${v}`).style.stroke = "black";
+        },
+        reverseChange: () => {
+          document.getElementById(`undircir${v}`).style.fill = "white";
+          document.getElementById(`undirtxt${v}`).style.stroke = "black";
+        },
+      });
+      // console.log(animationArray)
+      for (let i = 0; i < adjacencyList[v].length; i++)
+        if (vis[adjacencyList[v][i]] === false)
+          this.dfsCall(adjacencyList[v][i]);
+      animationArray.push({
+        change: () => {
+          document.getElementById(`undircir${v}`).style.fill = "black";
+          document.getElementById(`undirtxt${v}`).style.stroke = "white";
+        },
+        reverseChange: () => {
+          document.getElementById(`undircir${v}`).style.fill = "grey";
+          document.getElementById(`undirtxt${v}`).style.stroke = "black";
+        },
+      });
+    };
+
+    this.reset = function () {
+      if (this.animation.array !== undefined) {
+        clearInterval(this.animation.intervalId);
+        this.animation.reset();
       }
-    }
+      this.setMode(this.mode, 1);
+      this.show();
+    };
   }
 }
 
-
 export class DirectedGraph {
   constructor() {
-    this.graphmode = "Directed"
-    let graphObject = this
+    this.graphmode = "Directed";
     let orderofbfs = [];
     let orderofdfs = [];
     let vertices = [];
-    let noOfVertice = 0;
-    let mode = 1;
+    let noOfVertices = 0;
+    this.mode = 1;
     let temp_edge;
     let adjacencyList = [];
     let edges = 0;
-    
+    this.animation = {};
     // let update = 0;
     let mouseEvent = new MouseEvents(this);
+    let vis = [];
+    let animationArray = [];
     this.setVertices = (n) => {
-      noOfVertice = n;
+      noOfVertices = n;
       for (let i = 0; i < n; i++) {
         adjacencyList.push([]);
       }
       createNodes();
     };
-    let cnt1 = 0,
-      cnt2 = 0,
-      cnt3 = 0;
-    this.setMode = function (m) {
-      mode = m;
-      switch (mode) {
+    
+    this.setMode = function (m, r) {
+      this.mode = m;
+      this.root = r;
+      let sideBar = document.getElementById("sideBar");
+      let childenOfSideBar = sideBar.children;
+      while (childenOfSideBar.length > 1) {
+        sideBar.removeChild(sideBar.lastElementChild);
+      }
+      switch (this.mode) {
         case 1: {
-          if (cnt1 == 0) {
-            // alert(
-            // 	"You have entered edit mode! Click on the node you want to move and then move it."
-            // );
-            swal(
-              "EDIT MODE",
-              "Click on the node you want to move and then move it.",
-              "info"
-            );
-            // console.log(cnt1)
-          }
-          cnt1++;
           break;
         }
         case 2: {
-          if (cnt2 == 0) {
-            swal(
-              "BFS MODE",
-              "Click on the node from where you want to start BFS.",
-              "info"
-            );
-          }
-          cnt2++;
+          let newChild = document.createElement("div");
+          newChild.className = "container border border-dark BFSAlgo";
+          newChild.style = "height:auto";
+          newChild.id = "BFS";
+          newChild.innerHTML = `     <b>
+          <div class = "container" style = "text-align: center;">
+          <h1>BFS MODE</h1>
+          <h3 id = "root"> Root : ${this.root}</h3>
+          </div>
+          <div class="alert alert-info alert-dismissible fade show information" role="alert">
+          <h2 class="alert-heading"><strong>Instructions</strong></h2>
+          Click the node which you want to be the root
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class = "animationButtons">
+          <button type = "button" class="btn btn-primary" id = "directedStart">Start</button>
+          <button type = "button" class="btn btn-primary" id = "directedPause">Pause</button>
+          <button type = "button" class="btn btn-primary" id = "directedResume">Resume</button>
+          <button type = "button" class="btn btn-primary" id = "directedPrev">Prev</button>
+          <button type = "button" class="btn btn-primary" id = "directedNext">Next</button>
+          <button type = "button" class="btn btn-primary" id = "directedReset">Reset</button>
+          <div></div>
+          <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
+          <div></div>
+          </div>
+          </b>
+          `;
+          sideBar.appendChild(newChild);
+          this.bfs();
+          document.getElementById("Exit").addEventListener("click", () => {
+            if (this.animation.array !== undefined) {
+              clearInterval(this.animation.intervalId);
+              this.animation.reset();
+            }
+            this.setMode(1, 1);
+          });
+          document
+            .getElementById("directedReset")
+            .addEventListener("click", () => {
+              this.reset();
+            });
+          document
+            .getElementById("directedNext")
+            .addEventListener("click", () => {
+              this.animation.next();
+            });
+          document
+            .getElementById("directedPrev")
+            .addEventListener("click", () => {
+              this.animation.prev();
+            });
+          document
+            .getElementById("directedResume")
+            .addEventListener("click", () => {
+              this.animation.resume();
+            });
+          document
+            .getElementById("directedPause")
+            .addEventListener("click", () => {
+              this.animation.pause();
+            });
+          document
+            .getElementById("directedStart")
+            .addEventListener("click", () => {
+              this.animation.start();
+            });
           break;
         }
         case 3: {
-          if (cnt3 == 0) {
-            swal(
-              "DFS MODE",
-              "Click on the node from where you want to start DFS.",
-              "info"
-            );
-          }
-          cnt3++;
+          let newChild = document.createElement("div");
+          newChild.className = "container border border-dark DFSAlgo";
+          newChild.style = "height:auto";
+          newChild.id = "DFS";
+          newChild.innerHTML = `      <b>
+          <div class = "container" style = "text-align: center;">
+          <h1>DFS MODE</h1>
+          <h3 id = "root"> Root : ${this.root}</h3>
+          </div>
+          <div class="alert alert-info alert-dismissible fade show information" role="alert">
+          <h2 class="alert-heading"><strong>Instructions</strong></h2>
+          Click the node which you want to be the root
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class = "animationButtons">
+          <button type = "button" class="btn btn-primary" id = "directedStart">Start</button>
+          <button type = "button" class="btn btn-primary" id = "directedPause">Pause</button>
+          <button type = "button" class="btn btn-primary" id = "directedResume">Resume</button>
+          <button type = "button" class="btn btn-primary" id = "directedPrev">Prev</button>
+          <button type = "button" class="btn btn-primary" id = "directedNext">Next</button>
+          <button type = "button" class="btn btn-primary" id = "directedReset">Reset</button>
+          <div></div>
+          <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
+          <div></div>
+          </div>
+          </b>
+          `;
+          sideBar.appendChild(newChild);
+          this.dfs(); // this functions makes the animation object of dfs walk
+          document.getElementById("Exit").addEventListener("click", () => {
+            if (this.animation.array !== undefined) {
+              clearInterval(this.animation.intervalId);
+              this.animation.reset();
+            }
+            this.setMode(1, 1);
+          });
+          document
+            .getElementById("directedReset")
+            .addEventListener("click", () => {
+              this.reset();
+            });
+          document
+            .getElementById("directedNext")
+            .addEventListener("click", () => {
+              this.animation.next();
+            });
+          document
+            .getElementById("directedPrev")
+            .addEventListener("click", () => {
+              this.animation.prev();
+            });
+          document
+            .getElementById("directedResume")
+            .addEventListener("click", () => {
+              this.animation.resume();
+            });
+          document
+            .getElementById("directedPause")
+            .addEventListener("click", () => {
+              this.animation.pause();
+            });
+          document
+            .getElementById("directedStart")
+            .addEventListener("click", () => {
+              this.animation.start();
+            });
           break;
         }
       }
     };
+
 
     this.addVertices = function (a) {
       a = parseInt(a);
@@ -540,8 +766,8 @@ export class DirectedGraph {
         let v = new Vertex(avgx(), avgy());
         vertices.push(v);
       }
-      noOfVertice += a;
-      this.show();
+      noOfVertices += a;
+      this.reset();
     };
 
     this.drawEdge = function (vertex) {
@@ -566,14 +792,14 @@ export class DirectedGraph {
         graphSheet.removeEventListener(
           "mouseleave",
           (event) => {
-            this.onMouseLeave(mode, event, graphSheet);
+            mouseEvent.onMouseLeave(this.mode, event, graphSheet);
           },
           false
         );
         graphSheet.removeEventListener(
           "mousemove",
           (event) => {
-            this.onMouseMove(mode, event, graphSheet,graphObject);
+            mouseEvent.onMouseMove(this.mode, event, graphSheet, this);
           },
           false
         );
@@ -582,16 +808,16 @@ export class DirectedGraph {
         this.show();
       }
     };
-    
+
     function createNodes() {
       let center_x = screen.width * 0.4;
       let center_y = screen.height * 0.3;
-      let angle = (2 * Math.PI) / noOfVertice;
+      let angle = (2 * Math.PI) / noOfVertices;
       var newvertices = [];
-      for (let i = 1; i <= noOfVertice; i++) {
+      for (let i = 1; i <= noOfVertices; i++) {
         let v;
-        let xcor = center_x + noOfVertice * 15 * Math.sin(i * angle);
-        let ycor = center_y + noOfVertice * 15 * Math.cos(i * angle);
+        let xcor = center_x + noOfVertices * 15 * Math.sin(i * angle);
+        let ycor = center_y + noOfVertices * 15 * Math.cos(i * angle);
         v = new Vertex(xcor, ycor);
         newvertices.push(v);
       }
@@ -599,29 +825,27 @@ export class DirectedGraph {
     }
 
     function avgx() {
-      if (noOfVertice == 0) return screen.width * 0.4;
+      if (noOfVertices == 0) return screen.width * 0.4;
       let sum = 0;
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         sum += vertices[i].x_cor;
       }
-      return sum / noOfVertice;
+      return sum / noOfVertices;
     }
 
     function avgy() {
-      if (noOfVertice == 0) return screen.height * 0.3;
+      if (noOfVertices == 0) return screen.height * 0.3;
       let sum = 0;
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         sum += vertices[i].y_cor;
       }
-      return sum / noOfVertice;
+      return sum / noOfVertices;
     }
-
-    
 
     this.addEdge = function (a, b) {
       a = parseInt(a);
       b = parseInt(b);
-      console.log(a,b)
+      console.log(a, b);
       if (a >= adjacencyList.length || b >= adjacencyList.length) {
         swal("Invalid Input", "Edges are out of bounds", "error");
         return;
@@ -633,7 +857,6 @@ export class DirectedGraph {
       adjacencyList[a].push(b);
       edges++;
     };
-   
 
     this.deleteEdge = function (a, b) {
       a = parseInt(a);
@@ -651,13 +874,12 @@ export class DirectedGraph {
       edges--;
     };
 
-    
     this.updateNode = (x, y, pos) => {
       vertices[pos].x_cor = x;
       vertices[pos].y_cor = y;
       this.show();
     };
-    
+
     this.endpoint = (a, b, c, d) => {
       let dis = Math.sqrt((c - a) * (c - a) + (d - b) * (d - b));
       let newx = ((dis - 25) * c + 25 * a) / dis;
@@ -678,7 +900,7 @@ export class DirectedGraph {
         for (let j = 0; j < adjacencyList[i].length; j++) {
           let x = i;
           let y = adjacencyList[i][j];
-          if (x > noOfVertice - 1 || y > noOfVertice - 1 || x < 0 || y < 0) {
+          if (x > noOfVertices - 1 || y > noOfVertices - 1 || x < 0 || y < 0) {
             err = 1;
             continue;
           }
@@ -707,7 +929,7 @@ export class DirectedGraph {
         }
       }
       if (err) alert("Some Edges were out of bounds! ");
-      for (let i = 0; i < noOfVertice; i++) {
+      for (let i = 0; i < noOfVertices; i++) {
         const el = document.getElementById("graph");
         const ver = document.createElementNS(
           // it means the circle tag belongs to svg and not any other xml format
@@ -724,13 +946,13 @@ export class DirectedGraph {
         let y_ver = vertices[i].y_cor;
         let x_text = x_ver;
         let y_text = y_ver;
-        let id_cir = "cir" + i;
-        let id_text = "txt" + i;
+        let id_cir = "dircir" + i;
+        let id_text = "dirtxt" + i;
         let className = "node" + i;
 
         ver.setAttributeNS(null, "stroke", "black");
         ver.setAttributeNS(null, "stroke-width", "2");
-        ver.setAttributeNS(null, "fill", "black");
+        ver.setAttributeNS(null, "fill", "white");
         ver.setAttributeNS(null, "cx", x_ver);
         ver.setAttributeNS(null, "cy", y_ver);
         txt.style["font-size"] = "16";
@@ -738,7 +960,7 @@ export class DirectedGraph {
         txt.setAttributeNS(null, "y", y_text);
         txt.setAttributeNS(null, "text-anchor", "middle"); // to put the txt inside the circle at the center
         txt.setAttributeNS(null, "alignment-baseline", "central"); // to put the txt inside the circle at the center
-        txt.setAttributeNS(null, "stroke", "white");
+        txt.setAttributeNS(null, "stroke", "black");
         ver.setAttributeNS(null, "r", "15");
         ver.setAttributeNS(null, "id", id_cir);
         txt.setAttributeNS(null, "id", id_text);
@@ -750,14 +972,14 @@ export class DirectedGraph {
         ver.addEventListener(
           "mousedown",
           (event) => {
-            mouseEvent.onMouseDown(mode, event, ver,graphObject);
+            mouseEvent.onMouseDown(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "mousedown",
           (event) => {
-            mouseEvent.onMouseDown(mode, event, txt,graphObject);
+            mouseEvent.onMouseDown(this.mode, event, txt, this);
           },
           false
         );
@@ -765,14 +987,14 @@ export class DirectedGraph {
         ver.addEventListener(
           "mouseup",
           (event) => {
-            mouseEvent.onMouseUp(mode, event, ver,graphObject);
+            mouseEvent.onMouseUp(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "mouseup",
           (event) => {
-            mouseEvent.onMouseUp(mode, event, txt,graphObject);
+            mouseEvent.onMouseUp(this.mode, event, txt, this);
           },
           false
         );
@@ -780,14 +1002,14 @@ export class DirectedGraph {
         ver.addEventListener(
           "click",
           (event) => {
-            mouseEvent.onClick(mode, event, ver,graphObject);
+            mouseEvent.onClick(this.mode, event, ver, this);
           },
           false
         );
         txt.addEventListener(
           "click",
           (event) => {
-            mouseEvent.onClick(mode, event, txt,graphObject);
+            mouseEvent.onClick(this.mode, event, txt, this);
           },
           false
         );
@@ -795,14 +1017,14 @@ export class DirectedGraph {
         ver.addEventListener(
           "mouseover",
           (event) => {
-            mouseEvent.onMouseOver(mode, event, ver);
+            mouseEvent.onMouseOver(this.mode, event, ver);
           },
           false
         );
         txt.addEventListener(
           "mouseover",
           (event) => {
-            mouseEvent.onMouseOver(mode, event, txt);
+            mouseEvent.onMouseOver(this.mode, event, txt);
           },
           false
         );
@@ -810,14 +1032,14 @@ export class DirectedGraph {
         ver.addEventListener(
           "mouseout",
           (event) => {
-            mouseEvent.onMouseOut(mode, event, ver);
+            mouseEvent.onMouseOut(this.mode, event, ver);
           },
           false
         );
         txt.addEventListener(
           "mouseout",
           (event) => {
-            mouseEvent.onMouseOut(mode, event, txt);
+            mouseEvent.onMouseOut(this.mode, event, txt);
           },
           false
         );
@@ -833,86 +1055,96 @@ export class DirectedGraph {
       classes[1].setAttributeNS(null, "stroke", "white");
     }
 
-    this.bfs = function (x) {
-      orderofbfs = [];
-      orderofbfs.push(parseInt(x));
-      let cur = 0;
-      let visit = [];
-      for (let i = 0; i < noOfVertice; i++) {
-        visit.push(0);
-      }
-
-      start = setInterval(function () {
-        color(orderofbfs, 0);
-        clearInterval(start);
-      }, 1000);
-
-      Iterator = setInterval(function () {
-        if (cur == orderofbfs.length) {
-          reset = setInterval(function () {
-            for (let i = 0; i < noOfVertice; i++) {
-              document
-                .getElementsByClassName("node" + i)[0]
-                .setAttribute("fill", "black");
-              clearInterval(reset);
-            }
-          }, 1000);
-          clearInterval(Iterator);
-          return;
-        }
-        let u = parseInt(orderofbfs[cur]);
-        let prev = orderofbfs.length - 1;
-        document
-          .getElementsByClassName("node" + orderofbfs[cur])[0]
-          .setAttributeNS(null, "stroke", "black");
-        visit[u] = 1;
-        for (let i = 0; i < adjacencyList[u].length; i++) {
-          v = parseInt(adjacencyList[u][i]);
-          if (visit[v] == 0) {
-            orderofbfs.push(v);
-            visit[v] = 1;
+    this.bfs = function () {
+      if (adjacencyList.length === 0) return;
+      vis = [];
+      for (let i = 0; i < noOfVertices; i++) vis.push(false);
+      animationArray = [];
+      let queue = [];
+      queue.push(this.root - 1);
+      vis[this.root - 1] = true;
+      animationArray.push({
+        change: () => {
+          document.getElementById(`dircir${this.root - 1}`).style.fill =
+            "black";
+          document.getElementById(`dirtxt${this.root - 1}`).style.stroke =
+            "white";
+        },
+        reverseChange: () => {
+          document.getElementById(`dircir${this.root - 1}`).style.fill =
+            "white";
+          document.getElementById(`dirtxt${this.root - 1}`).style.stroke =
+            "black";
+        },
+      });
+      while (queue.length > 0) {
+        let parent = queue.shift();
+        adjacencyList[parent].forEach((child) => {
+          if (vis[child] === false) {
+            queue.push(child);
+            vis[child] = true;
+            animationArray.push({
+              change: () => {
+                document.getElementById(`dircir${child}`).style.fill = "black";
+                document.getElementById(`dirtxt${child}`).style.stroke = "white";
+              },
+              reverseChange: () => {
+                document.getElementById(`dircir${child}`).style.fill = "white";
+                document.getElementById(`dirtxt${child}`).style.stroke = "black";
+              },
+            });
           }
-        }
-        cur++;
-        for (let i = prev + 1; i < orderofbfs.length; i++) {
-          color(orderofbfs, i);
-        }
-        document
-          .getElementsByClassName("node" + orderofbfs[cur])[0]
-          .setAttributeNS(null, "stroke", "white");
-      }, 1000);
-      console.log(orderofbfs);
+        });
+      }
+      this.animation = new Animate(animationArray);
+      this.animation.reset();
     };
 
-    this.dfs = function (x) {
-      orderofdfs = [];
-      algoReady();
-      let visit = [];
-      for (let i = 0; i < noOfVertice; i++) {
-        visit.push(0);
-      }
-      doDfs(visit, x);
-      index = 0;
-      myInterval = setInterval(function () {
-        color(orderofdfs, index);
-        index++;
-        if (index == orderofdfs.length) {
-          clearInterval(myInterval);
-          return;
-        }
-      }, 1000);
-      console.log(orderofdfs);
+    this.dfs = function () {
+      if (adjacencyList.length === 0) return;
+      vis = [];
+      for (let i = 0; i < noOfVertices; i++) vis.push(false);
+      animationArray = [];
+      this.dfsCall(this.root - 1);
+      this.animation = new Animate(animationArray);
+      this.animation.reset();
+      // console.log(this.animation)
     };
-    function doDfs(visit, x) {
-      console.log("yes");
-      if (visit[x] == 0) {
-        visit[x] = 1;
-        orderofdfs.push(x);
-        for (let i = 0; i < adjacencyList[x].length; i++) {
-          if (visit[adjacencyList[x][i]] == 0)
-            doDfs(visit, adjacencyList[x][i]);
-        }
+    this.dfsCall = function (v) {
+      // console.log(v)
+      vis[v] = true;
+      animationArray.push({
+        change: () => {
+          document.getElementById(`dircir${v}`).style.fill = "grey";
+          document.getElementById(`dirtxt${v}`).style.stroke = "black";
+        },
+        reverseChange: () => {
+          document.getElementById(`dircir${v}`).style.fill = "white";
+          document.getElementById(`dirtxt${v}`).style.stroke = "black";
+        },
+      });
+      // console.log(animationArray)
+      for (let i = 0; i < adjacencyList[v].length; i++)
+        if (vis[adjacencyList[v][i]] === false)
+          this.dfsCall(adjacencyList[v][i]);
+      animationArray.push({
+        change: () => {
+          document.getElementById(`dircir${v}`).style.fill = "black";
+          document.getElementById(`dirtxt${v}`).style.stroke = "white";
+        },
+        reverseChange: () => {
+          document.getElementById(`dircir${v}`).style.fill = "grey";
+          document.getElementById(`dirtxt${v}`).style.stroke = "black";
+        },
+      });
+    };
+    this.reset = function () {
+      if (this.animation.array !== undefined) {
+        clearInterval(this.animation.intervalId);
+        this.animation.reset();
       }
-    }
+      this.setMode(this.mode, 1);
+      this.show();
+    };
   }
 }

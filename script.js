@@ -1,6 +1,6 @@
 // "use strict";
 
-import {UndirectedGraph , DirectedGraph} from "./Components/Graph.js";
+import { UndirectedGraph, DirectedGraph } from "./Components/Graph.js";
 
 let Header = document.getElementById("Header");
 let height = Header.offsetHeight; // return the height of the header
@@ -9,39 +9,117 @@ sideBar.style.height = String(window.innerHeight - height) + "px"; // viewport h
 // console.log(sideBar.style.height)
 let graphSheet = document.getElementById("graphSheet");
 graphSheet.style.height = String(window.innerHeight - height) + "px";
-window.undirectedGraph = new UndirectedGraph("My graph","Undirected");
-window.directedGraph = new DirectedGraph()
+window.undirectedGraph = new UndirectedGraph();
+window.directedGraph = new DirectedGraph();
+document.getElementById("DFSOption").addEventListener("click", () => {
+  if (window.undirectedGraph.animation.array !== undefined) {
+    clearInterval(window.undirectedGraph.animation.intervalId);
+    window.undirectedGraph.animation.reset();
+  }
+  window.undirectedGraph.setMode(3, 1);
+});
+document.getElementById("BFSOption").addEventListener("click", () => {
+  if (window.undirectedGraph.animation.array !== undefined) {
+    clearInterval(window.undirectedGraph.animation.intervalId);
+    window.undirectedGraph.animation.reset();
+  }
+  window.undirectedGraph.setMode(2, 1);
+});
 window.graphMode = "Undirected";
 
 // Switching between directed and undirected
 document.getElementById("Undirected").addEventListener("click", () => {
   window.graphMode = "Undirected";
-  document.getElementById("graphSheet").innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
-  <defs>
+  document.getElementById(
+    "graphSheet"
+    ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+    <defs>
     <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" />
+    <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
-  </defs>
+    </defs>
+    
+  </svg>`;
+  document.getElementById(
+    "AlgoList"
+    ).innerHTML = `  <div class="optiondecoration">
+    <li  style="font-size: 23px; cursor: pointer" id = "BFSOption">
+    BFS
+    </li>
+    </div>
+    <div class="optiondecoration">
+<li  style="font-size: 23px; cursor: pointer" id = "DFSOption">
+DFS
+</li>
+</div>`;
+window.undirectedGraph.setMode(
+  window.undirectedGraph.mode,
+  window.undirectedGraph.root
+  );
+  document.getElementById("DFSOption").addEventListener("click", () => {
+    if (window.undirectedGraph.animation.array !== undefined) {
+      clearInterval(window.undirectedGraph.animation.intervalId);
+      window.undirectedGraph.animation.reset();
+    }
+    window.undirectedGraph.setMode(3, 1);
+  });
+  document.getElementById("BFSOption").addEventListener("click", () => {
+    if (window.undirectedGraph.animation.array !== undefined) {
+      clearInterval(window.undirectedGraph.animation.intervalId);
+      window.undirectedGraph.animation.reset();
+    }
+    window.undirectedGraph.setMode(2, 1);
+  });
 
-</svg>`
-  window.undirectedGraph.show();
+  window.undirectedGraph.reset();
 });
-
 
 document.getElementById("Directed").addEventListener("click", () => {
   window.graphMode = "Directed";
-  document.getElementById("graphSheet").innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" />
-    </marker>
+  document.getElementById(
+    "graphSheet"
+    ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+  <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" />
+  </marker>
   </defs>
-
-</svg>
-`
-  window.directedGraph.show()
+  
+  </svg>
+`;
+  document.getElementById(
+    "AlgoList"
+  ).innerHTML = `  <div class="optiondecoration">
+  <li  style="font-size: 23px; cursor: pointer" id = "BFSOption">
+  BFS
+  </li>
+  </div>
+  <div class="optiondecoration">
+  <li  style="font-size: 23px; cursor: pointer" id = "DFSOption">
+  DFS
+  </li>
+  </div>`;
+  window.directedGraph.setMode(
+    window.directedGraph.mode,
+    window.directedGraph.root
+    );
+    document.getElementById("DFSOption").addEventListener("click", () => {
+      if (window.directedGraph.animation.array !== undefined) {
+        clearInterval(window.directedGraph.animation.intervalId);
+        window.directedGraph.animation.reset();
+      }
+      window.directedGraph.setMode(3, 1);
+    });
+    document.getElementById("BFSOption").addEventListener("click", () => {
+    if (window.directedGraph.animation.array !== undefined) {
+      clearInterval(window.directedGraph.animation.intervalId);
+      window.directedGraph.animation.reset();
+    }
+    window.directedGraph.setMode(2, 1);
+  });
+  window.directedGraph.show();
+  
 });
-
 
 /*************************************************************************** */
 window.funcType = {
@@ -55,30 +133,36 @@ window.funcType = {
     addEdge: (a, b) => {
       window.undirectedGraph.addEdge(a, b);
     },
-    setVertices : (n) =>{
-      window.undirectedGraph.setVertices(n);    
-    }
+    setVertices: (n) => {
+      window.undirectedGraph.setVertices(n);
+    },
+    reset: () => {
+      window.undirectedGraph.reset();
+    },
   },
   Directed: {
     show: () => {
       window.directedGraph.show();
     },
-    deleteEdge: (a,b) => {
-      window.directedGraph.deleteEdge(a,b);
+    deleteEdge: (a, b) => {
+      window.directedGraph.deleteEdge(a, b);
     },
-    addEdge: (a,b) => {
-      window.directedGraph.addEdge(a,b);
+    addEdge: (a, b) => {
+      window.directedGraph.addEdge(a, b);
     },
-    setVertices : (n) =>{
-      window.directedGraph.setVertices(n);    
-    }
+    setVertices: (n) => {
+      window.directedGraph.setVertices(n);
+    },
+    reset: () => {
+      window.directedGraph.show();
+    },
   },
 };
 
 /*****************************************Functions for making a new graph **************************/
 window.makeGraph = (edge_list, number_of_nodes) => {
   // this functions forms a new graph of the validated data
-  window.funcType[window.graphMode].setVertices(number_of_nodes)
+  window.funcType[window.graphMode].setVertices(number_of_nodes);
   for (let i = 0; i < edge_list.length; i++) {
     let edgeNodes = edge_list[i].split(" ");
     let a = Number(edgeNodes[0]),
@@ -115,8 +199,8 @@ window.makeNewGraph = (event) => {
     }
     filteredEdgeList.push(edge);
   }
-  if(window.graphMode === "Undirected")
-  window.undirectedGraph = new UndirectedGraph("My Graph","Undirected");
+  if (window.graphMode === "Undirected")
+    window.undirectedGraph = new UndirectedGraph();
   else window.directedGraph = new DirectedGraph();
   window.makeGraph(filteredEdgeList, Number(number_of_nodes));
 };
@@ -136,7 +220,7 @@ window.handleNumberOfVerticesChange = (event) => {
 
 /********************************************Modifying edges ****************************************/
 window.setMode = (mode, graph) => {
-  graph.setMode(mode);
+  graph.setMode(mode, 1);
 };
 
 window.newEdge = () => {
@@ -150,7 +234,7 @@ window.newEdge = () => {
   for (let i = 0; i < m.length; i += 2) {
     window.funcType[window.graphMode].addEdge(m[i] - 1, m[i + 1] - 1);
   }
-  window.funcType[window.graphMode].show();
+  window.funcType[window.graphMode].reset();
 };
 
 window.deleteEdge = () => {
@@ -165,30 +249,32 @@ window.deleteEdge = () => {
     // console.log(window.graphMode)
     window.funcType[window.graphMode].deleteEdge(m[i] - 1, m[i + 1] - 1);
   }
-  window.funcType[window.graphMode].show();
+  window.funcType[window.graphMode].reset();
 };
 /************************************************************************************************/
 
-
-
 /**************************** Functions for HTML elements *****************************************************/
 
-document.getElementById("Add Vertex").addEventListener('click',()=> {
-  if(window.graphMode === "Undirected")
-    window.undirectedGraph.addVertices(1)
-  else window.directedGraph.addVertices(1)
-})
-document.getElementById("Add Edge").addEventListener('click',()=> {
-  window.newEdge()
-})
-document.getElementById("Delete Edge").addEventListener('click',()=> {
-  window.deleteEdge()
-})
+document.getElementById("Add Vertex").addEventListener("click", () => {
+  if (window.graphMode === "Undirected") window.undirectedGraph.addVertices(1);
+  else window.directedGraph.addVertices(1);
+});
+document.getElementById("Add Edge").addEventListener("click", () => {
+  window.newEdge();
+});
+document.getElementById("Delete Edge").addEventListener("click", () => {
+  window.deleteEdge();
+});
 
-document.getElementById("vertices").addEventListener('input',(event)=>{
-  window.handleNumberOfVerticesChange(event)
-})
+document.getElementById("vertices").addEventListener("input", (event) => {
+  window.handleNumberOfVerticesChange(event);
+});
 
-document.getElementById("submitNewGraph").addEventListener('click',(event)=>{
-  window.makeNewGraph(event)
-})
+document.getElementById("submitNewGraph").addEventListener("click", (event) => {
+  window.makeNewGraph(event);
+});
+
+// let ndChild = document.getElementById("sideBar").children[1];
+// console.log(ndChild);
+// document.getElementById('sideBar').removeChild(ndChild)
+// console.log(document.getElementById('sideBar').children)
