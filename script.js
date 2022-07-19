@@ -29,6 +29,10 @@ window.graphMode = "Undirected";
 
 // Switching between directed and undirected
 document.getElementById("Undirected").addEventListener("click", () => {
+  if (window.directedGraph.animation.array !== undefined) {
+    clearInterval(window.directedGraph.animation.intervalId);
+    window.directedGraph.animation.reset();
+  }
   window.graphMode = "Undirected";
   document.getElementById(
     "graphSheet"
@@ -75,6 +79,10 @@ window.undirectedGraph.setMode(
 });
 
 document.getElementById("Directed").addEventListener("click", () => {
+  if (window.undirectedGraph.animation.array !== undefined) {
+    clearInterval(window.undirectedGraph.animation.intervalId);
+    window.undirectedGraph.animation.reset();
+  }
   window.graphMode = "Directed";
   document.getElementById(
     "graphSheet"
@@ -162,9 +170,10 @@ window.funcType = {
 /*****************************************Functions for making a new graph **************************/
 window.makeGraph = (edge_list, number_of_nodes) => {
   // this functions forms a new graph of the validated data
+  let reg = /\s+/
   window.funcType[window.graphMode].setVertices(number_of_nodes);
   for (let i = 0; i < edge_list.length; i++) {
-    let edgeNodes = edge_list[i].split(" ");
+    let edgeNodes = edge_list[i].split(reg);
     let a = Number(edgeNodes[0]),
       b = Number(edgeNodes[1]);
     // console.log(a,b)
@@ -191,7 +200,7 @@ window.makeNewGraph = (event) => {
     // this loop removes extra whitespaces and stores the edges in filteredEdgeList
     let edge = edge_list[i];
     let extraSpace = /^\s+|\s+$/; // space at the beginning or end
-    edge.replace(extraSpace, "");
+    edge = edge.replace(extraSpace, "");
     if (edge === "") continue;
     if (!desiredEdgePattern.test(edge)) {
       swal("Invalid Input", "Edges are not in valid form", "error");
