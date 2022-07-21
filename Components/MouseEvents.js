@@ -109,14 +109,14 @@ export default class MouseEvents {
 					break;
 				}
 				case 2: {
-					console.log(classname);
+					// console.log(classname);
 					graph.setMode(2,classname+1)
 					graph.show();
 					// graph.bfs(className);
 					break;
 				}
 				case 3: {
-					console.log(className);
+					// console.log(className);
 					graph.setMode(3,classname+1)
 					graph.show();
 					// graph.dfs(className);

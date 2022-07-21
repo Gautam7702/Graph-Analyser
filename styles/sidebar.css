@@ -6,10 +6,7 @@
 
 .sideBar {
   font-size: 2vh;
-  position: absolute;
-  top: auto;
-  right: 0px;
-  width: 20%;
+  width: auto;
   background-color: #10316b;
   display: flex;
   flex-direction: column;
@@ -54,9 +51,4 @@ Distribute items evenly
   row-gap: 5px;
   -moz-column-gap: 5px;
        column-gap: 5px;
-}
-
-.algorithm, .BFSAlgo, .DFSAlgo {
-  padding-top: 10px;
-  padding-bottom: 10px;
 }/*# sourceMappingURL=sidebar.css.map */

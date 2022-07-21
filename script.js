@@ -36,17 +36,23 @@ document.getElementById("Undirected").addEventListener("click", () => {
   window.graphMode = "Undirected";
   document.getElementById(
     "graphSheet"
-    ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+  ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
     <defs>
     <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
     <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
     </defs>
     
-  </svg>`;
+  </svg>
+  <div class = "AnimationButtons" id = "AnimationButtons">
+      
+        <div className = "NoAlgo" style = "height: auto;width: 100%;text-align:center" id = "NoAlgo">
+          <h1>Animation buttons will appear here</h1>
+        </div>
+      </div>`;
   document.getElementById(
     "AlgoList"
-    ).innerHTML = `  <div class="optiondecoration">
+  ).innerHTML = `  <div class="optiondecoration">
     <li  style="font-size: 23px; cursor: pointer" id = "BFSOption">
     BFS
     </li>
@@ -56,9 +62,9 @@ document.getElementById("Undirected").addEventListener("click", () => {
 DFS
 </li>
 </div>`;
-window.undirectedGraph.setMode(
-  window.undirectedGraph.mode,
-  window.undirectedGraph.root
+  window.undirectedGraph.setMode(
+    window.undirectedGraph.mode,
+    window.undirectedGraph.root
   );
   document.getElementById("DFSOption").addEventListener("click", () => {
     if (window.undirectedGraph.animation.array !== undefined) {
@@ -86,7 +92,7 @@ document.getElementById("Directed").addEventListener("click", () => {
   window.graphMode = "Directed";
   document.getElementById(
     "graphSheet"
-    ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
+  ).innerHTML = `    <svg id="graph" height="85vh" width="80vw" xmlns="http://www.w3.org/2000/svg">
     <defs>
   <marker id="arrow" refX="5" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
   <path d="M 0 0 L 10 5 L 0 10 z" />
@@ -94,6 +100,12 @@ document.getElementById("Directed").addEventListener("click", () => {
   </defs>
   
   </svg>
+  <div class = "AnimationButtons" id = "AnimationButtons">
+      
+        <div className = "NoAlgo" style = "height: auto;width: 100%;text-align:center" id = "NoAlgo">
+          <h1>Animation buttons will appear here</h1>
+        </div>
+      </div>
 `;
   document.getElementById(
     "AlgoList"
@@ -110,23 +122,23 @@ document.getElementById("Directed").addEventListener("click", () => {
   window.directedGraph.setMode(
     window.directedGraph.mode,
     window.directedGraph.root
-    );
-    document.getElementById("DFSOption").addEventListener("click", () => {
-      if (window.directedGraph.animation.array !== undefined) {
-        clearInterval(window.directedGraph.animation.intervalId);
-        window.directedGraph.animation.reset();
-      }
-      window.directedGraph.setMode(3, 1);
-    });
-    document.getElementById("BFSOption").addEventListener("click", () => {
+  );
+  document.getElementById("DFSOption").addEventListener("click", () => {
+    if (window.directedGraph.animation.array !== undefined) {
+      clearInterval(window.directedGraph.animation.intervalId);
+      window.directedGraph.animation.reset();
+    }
+    window.directedGraph.setMode(3, 1);
+  });
+  document.getElementById("BFSOption").addEventListener("click", () => {
     if (window.directedGraph.animation.array !== undefined) {
       clearInterval(window.directedGraph.animation.intervalId);
       window.directedGraph.animation.reset();
     }
     window.directedGraph.setMode(2, 1);
   });
-  window.directedGraph.show();
-  
+  // console.log("Hii")
+  window.directedGraph.reset();
 });
 
 /*************************************************************************** */
@@ -162,7 +174,7 @@ window.funcType = {
       window.directedGraph.setVertices(n);
     },
     reset: () => {
-      window.directedGraph.show();
+      window.directedGraph.reset();
     },
   },
 };
@@ -170,7 +182,7 @@ window.funcType = {
 /*****************************************Functions for making a new graph **************************/
 window.makeGraph = (edge_list, number_of_nodes) => {
   // this functions forms a new graph of the validated data
-  let reg = /\s+/
+  let reg = /\s+/;
   window.funcType[window.graphMode].setVertices(number_of_nodes);
   for (let i = 0; i < edge_list.length; i++) {
     let edgeNodes = edge_list[i].split(reg);
@@ -179,7 +191,7 @@ window.makeGraph = (edge_list, number_of_nodes) => {
     // console.log(a,b)
     window.funcType[window.graphMode].addEdge(a - 1, b - 1);
   }
-  window.funcType[window.graphMode].show();
+  window.funcType[window.graphMode].reset();
   // setInterval(graph.show(),100);
 };
 
@@ -283,7 +295,4 @@ document.getElementById("submitNewGraph").addEventListener("click", (event) => {
   window.makeNewGraph(event);
 });
 
-// let ndChild = document.getElementById("sideBar").children[1];
-// console.log(ndChild);
-// document.getElementById('sideBar').removeChild(ndChild)
-// console.log(document.getElementById('sideBar').children)
+// console.log(screen.height);

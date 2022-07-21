@@ -17,7 +17,7 @@ export default class Animate{
         this.prev = function(){
             // clearInterval(this.intervalId)
             if(this.it === -1) return;
-            console.log(this.it);
+            // console.log(this.it);
             this.array[this.it].reverseChange();
             this.it = Math.max(this.it-1,-1);
         }

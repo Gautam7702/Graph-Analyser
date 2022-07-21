@@ -35,44 +35,44 @@ export class UndirectedGraph {
     this.setMode = function (m, r) {
       this.mode = m;
       this.root = r;
-      let sideBar = document.getElementById("sideBar");
-      let childenOfSideBar = sideBar.children;
-      while (childenOfSideBar.length > 1) {
-        sideBar.removeChild(sideBar.lastElementChild);
+      let algo = document.getElementById("AnimationButtons");
+      let children = algo.children;
+      while (children.length > 0) {
+        algo.removeChild(algo.lastElementChild);
       }
       switch (this.mode) {
         case 1: {
+          let newChild = document.createElement("div");
+          newChild.className = "NoAlgo";
+          newChild.style = "height:auto;width:100%;text-align:center";
+          newChild.id = "NoAlgo";
+          newChild.innerHTML = `<h1>Animation buttons will appear here</h1>`;
+          algo.appendChild(newChild);
           break;
         }
         case 2: {
           let newChild = document.createElement("div");
-          newChild.className = "container border border-dark BFSAlgo";
-          newChild.style = "height:auto";
+          newChild.className = "border border-dark BFSAlgo";
+          // newChild.style = "height:auto;width:100%";
           newChild.id = "BFS";
-          newChild.innerHTML = `     <b>
-          <div class = "container" style = "text-align: center;">
-          <h1>BFS MODE</h1>
-          <h3 id = "root"> Root : ${this.root}</h3>
-          </div>
-          <div class="alert alert-info alert-dismissible fade show information" role="alert">
-          <h2 class="alert-heading"><strong>Instructions</strong></h2>
-          Click the node which you want to be the root
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <div class = "animationButtons">
+          newChild.style =
+            "height:100%;width:100%;text-align:center;";
+          newChild.innerHTML = `    
+          <h3>BFS MODE</h3>
+          <div style = "display:grid;grid-template-columns:30% 70%;">
+          <div class = "Root" style:"text-align:center"><h4><b>Root : ${r}</b></h4></div>
+          <div style = "display:flex;justify-content:space-evenly">
           <button type = "button" class="btn btn-primary" id = "undirectedStart">Start</button>
           <button type = "button" class="btn btn-primary" id = "undirectedPause">Pause</button>
           <button type = "button" class="btn btn-primary" id = "undirectedResume">Resume</button>
           <button type = "button" class="btn btn-primary" id = "undirectedPrev">Prev</button>
           <button type = "button" class="btn btn-primary" id = "undirectedNext">Next</button>
           <button type = "button" class="btn btn-primary" id = "undirectedReset">Reset</button>
-          <div></div>
           <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
-          <div></div>
           </div>
-          </b>
+          </div>
           `;
-          sideBar.appendChild(newChild);
+          algo.appendChild(newChild);
           this.bfs();
           document.getElementById("Exit").addEventListener("click", () => {
             if (this.animation.array !== undefined) {
@@ -115,33 +115,27 @@ export class UndirectedGraph {
         }
         case 3: {
           let newChild = document.createElement("div");
-          newChild.className = "container border border-dark DFSAlgo";
-          newChild.style = "height:auto";
+          newChild.className = "border border-dark DFSAlgo";
+          // newChild.style = "height:auto;width:100%";
           newChild.id = "DFS";
-          newChild.innerHTML = `      <b>
-          <div class = "container" style = "text-align: center;">
-          <h1>DFS MODE</h1>
-          <h3 id = "root"> Root : ${this.root}</h3>
-          </div>
-          <div class="alert alert-info alert-dismissible fade show information" role="alert">
-          <h2 class="alert-heading"><strong>Instructions</strong></h2>
-          Click the node which you want to be the root
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <div class = "animationButtons">
+          newChild.style =
+            "height:100%;width:100%;text-align:center;";
+          newChild.innerHTML = `    
+          <h3>DFS MODE</h3>
+          <div style = "display:grid;grid-template-columns:30% 70%;">
+          <div class = "Root"><h4><b>Root : ${r}</b></h4></div>
+          <div style = "display:flex;justify-content:space-evenly">
           <button type = "button" class="btn btn-primary" id = "undirectedStart">Start</button>
           <button type = "button" class="btn btn-primary" id = "undirectedPause">Pause</button>
           <button type = "button" class="btn btn-primary" id = "undirectedResume">Resume</button>
           <button type = "button" class="btn btn-primary" id = "undirectedPrev">Prev</button>
           <button type = "button" class="btn btn-primary" id = "undirectedNext">Next</button>
           <button type = "button" class="btn btn-primary" id = "undirectedReset">Reset</button>
-          <div></div>
           <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
-          <div></div>
           </div>
-          </b>
+          </div>
           `;
-          sideBar.appendChild(newChild);
+          algo.appendChild(newChild);
           this.dfs(); // this functions makes the animation object of dfs walk
           document.getElementById("Exit").addEventListener("click", () => {
             if (this.animation.array !== undefined) {
@@ -516,12 +510,16 @@ export class UndirectedGraph {
             vis[child] = true;
             animationArray.push({
               change: () => {
-                document.getElementById(`undircir${child}`).style.fill = "black";
-                document.getElementById(`undirtxt${child}`).style.stroke = "white";
+                document.getElementById(`undircir${child}`).style.fill =
+                  "black";
+                document.getElementById(`undirtxt${child}`).style.stroke =
+                  "white";
               },
               reverseChange: () => {
-                document.getElementById(`undircir${child}`).style.fill = "white";
-                document.getElementById(`undirtxt${child}`).style.stroke = "black";
+                document.getElementById(`undircir${child}`).style.fill =
+                  "white";
+                document.getElementById(`undirtxt${child}`).style.stroke =
+                  "black";
               },
             });
           }
@@ -604,48 +602,49 @@ export class DirectedGraph {
       }
       createNodes();
     };
-    
+
     this.setMode = function (m, r) {
       this.mode = m;
       this.root = r;
-      let sideBar = document.getElementById("sideBar");
-      let childenOfSideBar = sideBar.children;
-      while (childenOfSideBar.length > 1) {
-        sideBar.removeChild(sideBar.lastElementChild);
+      let algo = document.getElementById("AnimationButtons");
+      // console.log(algo)
+      let children = algo.children;
+      while (children.length > 0) {
+        algo.removeChild(algo.lastElementChild);
       }
       switch (this.mode) {
         case 1: {
+          let newChild = document.createElement("div");
+          newChild.className = "NoAlgo";
+          newChild.style = "height:auto;width:100%;text-align:center";
+          newChild.id = "NoAlgo";
+          newChild.innerHTML = `<h1>Animation buttons will appear here</h1>`;
+          algo.appendChild(newChild);
           break;
         }
         case 2: {
           let newChild = document.createElement("div");
-          newChild.className = "container border border-dark BFSAlgo";
-          newChild.style = "height:auto";
+          newChild.className = "border border-dark BFSAlgo";
+          // newChild.style = "height:auto;width:100%";
           newChild.id = "BFS";
-          newChild.innerHTML = `     <b>
-          <div class = "container" style = "text-align: center;">
-          <h1>BFS MODE</h1>
-          <h3 id = "root"> Root : ${this.root}</h3>
-          </div>
-          <div class="alert alert-info alert-dismissible fade show information" role="alert">
-          <h2 class="alert-heading"><strong>Instructions</strong></h2>
-          Click the node which you want to be the root
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <div class = "animationButtons">
+          newChild.style =
+            "height:100%;width:100%;text-align:center;";
+          newChild.innerHTML = `    
+          <h3>BFS MODE</h3>
+          <div style = "display:grid;grid-template-columns:30% 70%;">
+          <div class = "Root"><h4><b>Root : ${r}</b></h4></div>
+          <div style = "display:flex;justify-content:space-evenly">
           <button type = "button" class="btn btn-primary" id = "directedStart">Start</button>
           <button type = "button" class="btn btn-primary" id = "directedPause">Pause</button>
           <button type = "button" class="btn btn-primary" id = "directedResume">Resume</button>
           <button type = "button" class="btn btn-primary" id = "directedPrev">Prev</button>
           <button type = "button" class="btn btn-primary" id = "directedNext">Next</button>
           <button type = "button" class="btn btn-primary" id = "directedReset">Reset</button>
-          <div></div>
           <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
-          <div></div>
           </div>
-          </b>
+          </div>
           `;
-          sideBar.appendChild(newChild);
+          algo.appendChild(newChild);
           this.bfs();
           document.getElementById("Exit").addEventListener("click", () => {
             if (this.animation.array !== undefined) {
@@ -688,33 +687,27 @@ export class DirectedGraph {
         }
         case 3: {
           let newChild = document.createElement("div");
-          newChild.className = "container border border-dark DFSAlgo";
-          newChild.style = "height:auto";
+          newChild.className = "border border-dark DFSAlgo";
+          // newChild.style = "height:auto;width:100%";
           newChild.id = "DFS";
-          newChild.innerHTML = `      <b>
-          <div class = "container" style = "text-align: center;">
-          <h1>DFS MODE</h1>
-          <h3 id = "root"> Root : ${this.root}</h3>
-          </div>
-          <div class="alert alert-info alert-dismissible fade show information" role="alert">
-          <h2 class="alert-heading"><strong>Instructions</strong></h2>
-          Click the node which you want to be the root
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <div class = "animationButtons">
+          newChild.style =
+            "height:100%;width:100%;text-align:center;";
+          newChild.innerHTML = `    
+          <h3>DFS MODE</h3>
+          <div style = "display:grid;grid-template-columns:30% 70%;">
+          <div class = "Root"><h4><b>Root : ${r}</b></h4></div>
+          <div style = "display:flex;justify-content:space-evenly">
           <button type = "button" class="btn btn-primary" id = "directedStart">Start</button>
           <button type = "button" class="btn btn-primary" id = "directedPause">Pause</button>
           <button type = "button" class="btn btn-primary" id = "directedResume">Resume</button>
           <button type = "button" class="btn btn-primary" id = "directedPrev">Prev</button>
           <button type = "button" class="btn btn-primary" id = "directedNext">Next</button>
           <button type = "button" class="btn btn-primary" id = "directedReset">Reset</button>
-          <div></div>
           <button type = "button" class="btn btn-primary" id = "Exit">Exit</button>
-          <div></div>
           </div>
-          </b>
+          </div>
           `;
-          sideBar.appendChild(newChild);
+          algo.appendChild(newChild);
           this.dfs(); // this functions makes the animation object of dfs walk
           document.getElementById("Exit").addEventListener("click", () => {
             if (this.animation.array !== undefined) {
@@ -757,7 +750,6 @@ export class DirectedGraph {
         }
       }
     };
-
 
     this.addVertices = function (a) {
       a = parseInt(a);
@@ -845,7 +837,7 @@ export class DirectedGraph {
     this.addEdge = function (a, b) {
       a = parseInt(a);
       b = parseInt(b);
-      console.log(a, b);
+      // console.log(a, b);
       if (a >= adjacencyList.length || b >= adjacencyList.length) {
         swal("Invalid Input", "Edges are out of bounds", "error");
         return;
@@ -1086,11 +1078,13 @@ export class DirectedGraph {
             animationArray.push({
               change: () => {
                 document.getElementById(`dircir${child}`).style.fill = "black";
-                document.getElementById(`dirtxt${child}`).style.stroke = "white";
+                document.getElementById(`dirtxt${child}`).style.stroke =
+                  "white";
               },
               reverseChange: () => {
                 document.getElementById(`dircir${child}`).style.fill = "white";
-                document.getElementById(`dirtxt${child}`).style.stroke = "black";
+                document.getElementById(`dirtxt${child}`).style.stroke =
+                  "black";
               },
             });
           }
@@ -1143,6 +1137,7 @@ export class DirectedGraph {
         clearInterval(this.animation.intervalId);
         this.animation.reset();
       }
+      // console.log("Hi")
       this.setMode(this.mode, 1);
       this.show();
     };
