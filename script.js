@@ -1,7 +1,6 @@
 // "use strict";
 
 import { UndirectedGraph, DirectedGraph } from "./Components/Graph.js";
-
 let Header = document.getElementById("Header");
 let height = Header.offsetHeight; // return the height of the header
 let sideBar = document.getElementById("sideBar");
@@ -296,3 +295,49 @@ document.getElementById("submitNewGraph").addEventListener("click", (event) => {
 });
 
 // console.log(screen.height);
+// Generate report
+document.getElementById("gen_report").addEventListener("click",(event)=>{
+  let report = []
+  report.push("Graph Type :" +window.graphMode + "\n")
+  let noOfVertices =0;
+  let adjacencyList;
+ 
+  let edges = 0
+  if(window.graphMode == "Directed")
+    {
+      noOfVertices = window.directedGraph.getVertices();
+      adjacencyList  = window.directedGraph.getAdjacentList();
+      edges = window.directedGraph.getEdges();
+    }
+  else
+    {
+      noOfVertices = window.undirectedGraph.getVertices();
+      adjacencyList  = window.undirectedGraph.getAdjacentList();
+      edges = window.undirectedGraph.getEdges();
+    }
+  report.push("Number of vertices: " + noOfVertices + "\n");
+  report.push("Number of edges: " + edges + "\n");
+  let adjacencyMatrix = new Array(noOfVertices)
+  for(let i =0;i<noOfVertices;i++)
+    adjacencyMatrix[i] = new Array(noOfVertices);
+  for(let i =0;i<noOfVertices;i++)
+    {
+      for(let j=0;j<noOfVertices;j++)
+        adjacencyMatrix[i][j] = 0;
+    }
+  console.log(adjacencyList);
+  for(let i=0;i<adjacencyList.length;i++)
+    {
+      for(const j of adjacencyList[i])
+        {
+          console.log(i,j);
+          adjacencyMatrix[i][j]=1;
+        }
+    }
+  report.push("Adjacency Matrix \n");
+  for(let i=0;i<adjacencyMatrix.length;i++)
+    report.push(adjacencyMatrix[i]+"\n");
+  var blob = new Blob(report,{ type: "text/plain;charset=utf-8" });
+  saveAs(blob, "report.txt");
+}
+);
