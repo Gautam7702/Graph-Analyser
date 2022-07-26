@@ -1140,6 +1140,11 @@ export class DirectedGraph {
       // console.log("Hi")
       this.setMode(this.mode, 1);
       this.show();
+    };  
+    this.getAdjacentList = function()
+    {
+      return adjacencyList;
     };
   }
+  
 }
