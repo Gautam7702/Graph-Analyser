@@ -576,6 +576,16 @@ export class UndirectedGraph {
       this.setMode(this.mode, 1);
       this.show();
     };
+    this.getAdjacentList = function()
+    {
+      return adjacencyList;
+    };
+    this.getVertices = function(){
+      return noOfVertices;
+    }
+    this.getEdges = function(){
+      return edges;
+    }
   }
 }
 
@@ -1145,6 +1155,12 @@ export class DirectedGraph {
     {
       return adjacencyList;
     };
+    this.getVertices = function(){
+      return noOfVertices;
+    }
+    this.getEdges = function(){
+      return edges;
+    }
   }
   
 }
